@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+/* DETECTION TELEPHONE (exécutée tout de suite, dans le <head>) : ajoute la classe "is-phone" sur <html> */
+(function(){
+  var root=document.documentElement;
+  function mm(q){try{return window.matchMedia&&window.matchMedia(q).matches}catch(e){return false}}
+  function isPhone(){
+    var ua=navigator.userAgent||'';
+    var uaMobile=/Mobi|Android|iPhone|iPod|IEMobile|Opera Mini|BlackBerry/i.test(ua);
+    var ch=!!(navigator.userAgentData&&navigator.userAgentData.mobile);
+    var s=window.screen||{};
+    var small=Math.min(s.width||9999,s.height||9999);
+    var touch=(navigator.maxTouchPoints||0)>0||('ontouchstart' in window);
+    /* écran réel de petite taille + tactile : détecte aussi le mode "version ordinateur" des navigateurs mobiles */
+    var phoneScreen=touch&&small<=600;
+    var coarseSmall=mm('(pointer:coarse)')&&small<=820;
+    var narrow=mm('(max-width: 899px)');
+    return uaMobile||ch||phoneScreen||coarseSmall||narrow;
+  }
+  function apply(){
+    var p=isPhone();
+    root.classList.toggle('is-phone',p);
+    if(p){var m=document.querySelector('meta[name=viewport]');
+      if(m&&m.content.indexOf('device-width')<0)m.setAttribute('content','width=device-width, initial-scale=1');}
+  }
+  apply();
+  window.addEventListener('resize',apply);
+  window.addEventListener('orientationchange',apply);
+})();
+</script>
+
+<title>PBMecatec – Mécanique, soudure, électronique, impression 3D</title>
+<meta name="description" content="Soudure, conception, impression 3D, mécanique, électricité, réparation électronique, prêt de voiture pour shootings photo et applications de gestion d'entreprise.">
+<meta property="og:title" content="PBMecatec – Mécanique, soudure, électronique, impression 3D">
+<meta property="og:site_name" content="PBMecatec">
+<meta property="og:image" content="profil/portrait.webp">
+<meta property="og:description" content="Soudure, conception, impression 3D, mécanique, électricité, réparation électronique et applications sur mesure. Devis gratuit.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#232e3a">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"PBMecatec","url":"https://fit-keupon67.github.io/","image":"https://fit-keupon67.github.io/favicon.png","logo":"https://fit-keupon67.github.io/favicon.png",
+ "founder":{"@type":"Person","name":"Pascal Bernier"},"email":"PBMecatec@hotmail.com",
+ "areaServed":"Bas-Rhin, Alsace","sameAs":["https://www.instagram.com/littlekeupon/"],
+ "makesOffer":["Soudure","Conception","Impression 3D","Mécanique","Électricité","Réparation électronique","Applications de gestion d'entreprise"]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"PBMecatec","alternateName":["PB Mecatec","PBMecatec Atelier"],"url":"https://fit-keupon67.github.io/"}
+</script>
+<link rel="icon" href="favicon.png" type="image/png" sizes="192x192">
+<link rel="icon" href="favicon-48.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#232e3a; --bg2:#2f3c4a; --line:#45525f; --text:#f4f7f1; --muted:#bac5d0;
+  --lime:#c9f31d; --amber:#ffb020; --star-off:#55636f;
+  --head:'Chakra Petch',system-ui,sans-serif; --body:'Outfit',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{background:radial-gradient(1100px 600px at 50% -15%,#33414f 0%,var(--bg) 65%);color:var(--text);font-family:var(--body);font-weight:300;line-height:1.5;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--head);letter-spacing:-.01em;line-height:1.1}
+
+/* fond : grille + halo */
+body::before{content:"";position:fixed;inset:0;z-index:-1;
+  background:
+   radial-gradient(600px 400px at 85% 10%,rgba(201,243,29,.16),transparent 70%),
+   radial-gradient(500px 400px at 0% 90%,rgba(255,176,32,.12),transparent 70%),
+   linear-gradient(var(--line) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/48px 48px;
+  opacity:.55;
+  -webkit-mask-image:linear-gradient(#000 40%,transparent 100%);mask-image:linear-gradient(#000 40%,transparent 100%)}
+
+/* nav */
+header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(25,34,44,.82);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{display:inline-flex;align-items:center;font-family:var(--head);font-weight:700;font-size:1.1rem}
+.logo i{font-style:normal;color:var(--lime)}
+.logo-img{display:block;height:48px;width:auto;border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,.07)}
+nav ul{display:flex;gap:22px;list-style:none;font-size:.92rem}
+nav ul a{color:var(--muted);transition:color .2s}
+nav ul a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--head);font-weight:600;font-size:.95rem;padding:11px 20px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--text);transition:transform .2s,box-shadow .2s,border-color .2s,color .2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--lime)}
+.btn.main{background:var(--lime);color:#10140a;border-color:var(--lime)}
+.btn.main:hover{box-shadow:0 8px 30px rgba(201,243,29,.35)}
+.btn.sm{padding:7px 16px;font-size:.85rem}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:10px;min-height:min(560px,calc(100vh - 56px));padding:14px 20px}
+.hero-txt{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);border:1px solid var(--line);padding:5px 12px;border-radius:999px;margin-bottom:12px}
+.tag b{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 0 rgba(201,243,29,.6);animation:pulse 2s infinite}
+h1{font-size:clamp(2rem,4.6vw,3.4rem);font-weight:700}
+h1 span{display:block;background:linear-gradient(90deg,var(--lime),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{margin:14px 0 18px;max-width:46ch;color:#d9e0d6;font-size:1.05rem}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.chips span{font-size:.8rem;padding:5px 12px;border-radius:8px;background:var(--bg2);border:1px solid var(--line);color:var(--muted)}
+
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
+.hero-pic{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;animation:rise 1.1s .15s cubic-bezier(.2,.7,.2,1) both}
+.frame{position:relative;width:min(100%,340px);aspect-ratio:734/860;padding:3px;border-radius:24px;
+  background:conic-gradient(from var(--a),var(--lime),transparent 25%,var(--amber) 50%,transparent 75%,var(--lime));
+  animation:orbit 6s linear infinite;box-shadow:0 0 40px rgba(201,243,29,.17)}
+.frame::before{content:"";position:absolute;inset:-6px;border-radius:28px;border:1px dashed rgba(201,243,29,.25)}
+.screen{position:relative;width:100%;height:100%;border-radius:21px;overflow:hidden;padding:10px 6px 0;
+  background:radial-gradient(circle at 50% 35%,#3d4b59,#222c36 75%)}
+.screen img{display:block;width:100%;height:100%;object-fit:contain;object-position:50% 100%;transition:transform .15s ease-out;filter:drop-shadow(0 14px 22px rgba(0,0,0,.5))}
+.badge{width:min(100%,340px);background:rgba(25,34,44,.88);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:14px;padding:8px 14px;font-size:.8rem;color:var(--muted)}
+.badge strong{display:block;font-family:var(--head);color:var(--text);font-size:1rem}
+.badge strong b{color:var(--lime);font-weight:600}
+
+/* sections */
+section{padding:26px 0}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}
+h2{font-size:clamp(1.5rem,3vw,2.1rem)}
+.sec-head p{color:var(--muted);font-size:.95rem}
+
+/* prestations */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{position:relative;overflow:hidden;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:13px 14px;transition:transform .25s,border-color .25s}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(220px circle at var(--mx,50%) var(--my,0%),rgba(201,243,29,.16),transparent 70%);opacity:0;transition:opacity .25s}
+.card{display:block;cursor:pointer}
+.card:hover,.card:focus-visible{transform:translateY(-4px);border-color:var(--lime);box-shadow:0 10px 32px rgba(201,243,29,.18),inset 0 0 0 1px rgba(201,243,29,.35);background:#3a4756}
+.card .go{position:absolute;top:10px;right:10px;font-size:.68rem;font-family:var(--head);font-weight:600;color:#10140a;background:var(--lime);padding:3px 9px;border-radius:999px;opacity:0;transform:translateY(-4px);transition:.2s}
+.card:hover .go,.card:focus-visible .go{opacity:1;transform:none}
+.card:hover::before,.card:focus-visible::before{opacity:1}
+.card>*{position:relative}
+.ico{font-size:1.2rem;width:36px;height:36px;display:grid;place-items:center;border-radius:10px;margin-bottom:8px}
+.card h3{font-size:1rem;margin-bottom:3px}
+.card p{font-size:.82rem;color:var(--muted);line-height:1.4}
+
+/* compétences */
+.skills{display:grid;grid-template-columns:1fr 1fr;gap:0 36px;background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:12px 24px}
+.skill{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.skill span{font-size:.9rem}
+.stars{--v:4;position:relative;display:inline-block;font-size:1.15rem;letter-spacing:3px;line-height:1;color:var(--star-off);white-space:nowrap}
+.stars::before{content:"★★★★★";position:absolute;left:0;top:0;width:0;overflow:hidden;color:var(--amber);text-shadow:0 0 12px rgba(255,176,32,.5);transition:width 1.1s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.stars.on::before{width:calc(var(--v) / 5 * 100%)}
+.stars::after{content:"★★★★★";visibility:hidden}
+
+/* réalisations */
+.shots{display:grid;grid-template-columns:1.3fr 1fr 1fr;grid-template-rows:170px;gap:12px}
+.shot{position:relative;overflow:hidden;border-radius:16px;border:1px solid var(--line);background:radial-gradient(circle at 50% 60%,#394655,#26313b);display:grid;place-items:center}
+.shot img{width:92%;height:88%;object-fit:contain;transition:transform .5s}
+.shot:hover img{transform:scale(1.07) rotate(-1deg)}
+.shot figcaption{position:absolute;left:12px;bottom:10px;font-size:.78rem;background:rgba(25,34,44,.88);padding:4px 10px;border-radius:999px;border:1px solid var(--line)}
+.more{display:flex;justify-content:center;margin-top:14px}
+.car{display:grid;grid-template-columns:1fr 1.2fr;align-items:center;gap:18px;background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:14px 24px;overflow:hidden;position:relative}
+.car::before{content:"";position:absolute;inset:0;background:radial-gradient(400px 200px at 20% 60%,rgba(201,243,29,.17),transparent 70%)}
+.car>*{position:relative}
+.car img{width:100%;max-height:150px;object-fit:contain;transition:transform .5s}
+.car:hover img{transform:translateX(8px) scale(1.03)}
+.car h3{font-size:1.3rem;margin-bottom:6px}
+.car p{color:var(--muted);font-size:.92rem;margin-bottom:12px;max-width:48ch}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1.1fr;gap:12px}
+.box{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:16px 22px}
+.info li{list-style:none;display:flex;gap:14px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line);font-size:.95rem}
+.info li:last-child{border:0}
+.info em{font-style:normal;width:36px;height:36px;border-radius:10px;display:grid;place-items:center}
+.info small{display:block;color:var(--muted);font-size:.78rem}
+.info a:hover{color:var(--lime)}
+form{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input,select,textarea{width:100%;font:inherit;font-size:.92rem;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime)}
+textarea{resize:vertical;min-height:64px}
+footer{padding:16px 0 20px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+.avis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rev{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.rev p{font-size:.88rem;color:#d9e0d6;margin:8px 0}
+.rev b{font-family:var(--head);font-size:.95rem}.rev small{color:var(--muted)}
+.callbar{display:none}
+footer a:hover{color:var(--lime)}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes orbit{to{--a:360deg}}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(201,243,29,0)}100%{box-shadow:0 0 0 0 rgba(201,243,29,0)}}
+
+@media(max-width:900px){
+  body{padding-bottom:68px}
+  .callbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;gap:8px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(25,34,44,.95);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .callbar .btn{flex:1;justify-content:center}
+  .avis{grid-template-columns:1fr}
+  nav ul{display:none}
+  .logo-img{height:40px}
+  .hero{grid-template-columns:1fr;max-height:none;min-height:0;text-align:left}
+  .hero-pic{order:-1}.frame{width:min(78%,300px)}.badge{width:min(78%,300px)}
+  .grid{grid-template-columns:1fr 1fr}
+  .skills,.contact{grid-template-columns:1fr}
+  .shots{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .shot{height:150px}.shot:first-child{grid-column:span 2}.car{grid-template-columns:1fr}
+}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.sec-head{flex-direction:column;align-items:start}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.stars::before{width:calc(var(--v) / 5 * 100%)}}
+
+/* ajouts */
+.skip{position:absolute;left:-999px;top:8px;z-index:60;background:var(--lime);color:#10140a;padding:8px 14px;border-radius:8px;font-family:var(--head);font-weight:600}
+.skip:focus{left:8px}
+nav ul a.act{color:var(--lime)}
+.copy{margin-left:8px;font:inherit;font-size:.72rem;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:2px 10px;cursor:pointer;transition:.2s}
+.copy:hover{color:var(--lime);border-color:var(--lime)}
+.shot{cursor:pointer}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.rv.in{opacity:1;transform:none}
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.steps li{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.steps b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--lime);color:#10140a;font-family:var(--head);margin-bottom:8px}
+.steps h3{font-size:1rem;margin-bottom:4px}.steps p{font-size:.84rem;color:var(--muted);line-height:1.4}
+.faq{display:grid;gap:8px}
+.faq details{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.faq details[open]{border-color:rgba(201,243,29,.5)}
+.faq summary{cursor:pointer;font-family:var(--head);font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";color:var(--lime)}.faq details[open] summary::after{content:"–"}
+.faq p{color:var(--muted);font-size:.9rem;margin-top:8px}
+#msg{font-size:.85rem;color:var(--lime);min-height:1.2em}
+@media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+
+/* avis + formulaires */
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.st{font-size:.85rem;min-height:1.2em}
+.legal{font-size:.75rem;color:var(--muted);line-height:1.4}.legal a{text-decoration:underline}
+input[type=checkbox]{width:auto;margin-top:3px;accent-color:var(--lime)}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:.8rem;color:var(--muted)}
+.avisform{max-width:560px;margin:14px auto 0}
+.lbl{display:block;color:var(--muted);font-size:.78rem;margin-bottom:2px}
+.rate{display:flex;gap:2px}
+.rate button{font-size:1.7rem;line-height:1;background:none;border:0;color:var(--star-off);cursor:pointer;padding:2px 3px;transition:color .15s,transform .15s}
+.rate button.on{color:var(--amber)}.rate button:hover{transform:scale(1.15)}
+.noav{text-align:center;color:var(--muted);padding:6px 0}
+.avis .rev .stars{font-size:1rem}
+#avisBtn[aria-expanded=true]{border-color:var(--lime)}
+.avis{margin-bottom:6px}
+
+/* menu lateral : tuiles des pages */
+.menuBtn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-family:var(--head);font-weight:600;font-size:.85rem;cursor:pointer;transition:border-color .2s,background .2s}
+.menuBtn:hover{border-color:var(--lime);background:#374453}
+.menuBtn:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(8,11,15,.64);opacity:0;transition:opacity .25s}
+.scrim.on{opacity:1}
+.sideNav{position:fixed;top:0;left:0;bottom:0;z-index:41;width:min(340px,86vw);display:flex;flex-direction:column;background:#1c2530;border-right:1px solid var(--line);box-shadow:24px 0 60px rgba(0,0,0,.45);transform:translateX(-102%);visibility:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),visibility 0s linear .3s;overflow:hidden}
+.sideNav.open{transform:none;visibility:visible;transition:transform .3s cubic-bezier(.2,.7,.2,1),visibility 0s}
+.railBrand{display:flex;align-items:center;justify-content:space-between;gap:10px;height:56px;flex:none;padding:0 12px;border-bottom:1px solid var(--line)}
+.railBrand img{display:block;height:38px;width:auto;border-radius:7px;box-shadow:0 0 0 1px rgba(255,255,255,.07)}
+.sideNav-body{flex:1;min-height:0;display:flex;flex-direction:column;gap:9px;padding:14px 14px calc(14px + env(safe-area-inset-bottom));overflow-y:auto}
+.sideNav-title{font-family:var(--head);font-weight:600;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:0 4px 2px}
+.sideNav-foot{margin-top:auto;padding:14px 4px 0;color:var(--muted);font-size:.74rem;line-height:1.4;opacity:.8}
+.sideNav-close{width:38px;height:38px;flex:none;border-radius:11px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:1rem;line-height:1;cursor:pointer;transition:border-color .2s}
+.sideNav-close:hover{border-color:var(--lime)}
+.navTile{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--bg2);color:var(--text);transition:border-color .2s,background .2s,transform .2s}
+.navTile:hover,.navTile:focus-visible{border-color:var(--lime);transform:translateX(3px)}
+.navTile .ico{flex:none;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;font-size:1.15rem}
+.navTile b{display:block;font-family:var(--head);font-weight:600;font-size:.98rem;line-height:1.2}
+.navTile small{display:block;margin-top:3px;color:var(--muted);font-size:.78rem;line-height:1.3}
+.navTile[aria-current=page]{border-color:var(--lime);background:rgba(201,243,29,.10)}
+.navTile[aria-current=page] b{color:var(--lime)}
+body.navOpen{overflow:hidden}
+.navTile.toggle{width:100%;font:inherit;text-align:left;cursor:pointer}
+.navTile .chev{margin-left:auto;flex:none;color:var(--muted);transition:transform .25s}
+.navTile[aria-expanded=true]{border-color:var(--lime)}
+.navTile[aria-expanded=true] .chev{transform:rotate(180deg);color:var(--lime)}
+.navFilters{display:flex;flex-wrap:wrap;gap:7px;padding:0 2px 4px}
+.navFilters[hidden]{display:none}
+.navFilters a{font-size:.82rem;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--text);transition:border-color .2s,background .2s}
+.navFilters a:hover,.navFilters a:focus-visible{border-color:var(--lime);background:rgba(201,243,29,.10)}
+.navFilters a.all{background:var(--lime);border-color:var(--lime);color:#10140a;font-weight:500}
+.navFilters a{display:inline-flex;align-items:center;gap:6px}
+.navFilters a small{font-size:.7rem;font-weight:600;opacity:.65;font-variant-numeric:tabular-nums}
+.navFilters a.all small{opacity:.85}
+@media(max-width:900px){nav{flex-wrap:wrap;height:auto;padding:8px 0 10px;row-gap:8px}.menuBtn{width:44px;height:44px;padding:0;justify-content:center}.menuBtn span{display:none}}
+@media(max-width:1060px){nav ul{display:none}}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:13px 16px;transition:transform .25s,border-color .25s,box-shadow .25s}
+.tile:hover,.tile:focus-visible{transform:translateY(-3px);border-color:var(--lime);box-shadow:0 10px 32px rgba(201,243,29,.15)}
+.tile .ico{margin:0;flex:none}.tile h3{font-size:1rem;margin-bottom:2px}.tile p{font-size:.84rem;color:var(--muted);line-height:1.4}
+@media(max-width:700px){.duo{grid-template-columns:1fr}}
+.pageTitle{display:none;font-family:var(--head);font-weight:600;font-size:.9rem;color:var(--muted);letter-spacing:.02em}
+
+/* rail fixe (ordinateur) */
+@media(min-width:1100px){
+  .sideNav{transform:none;visibility:visible;width:236px;box-shadow:none}
+  .sideNav-close{display:none}
+  .sideNav-body{padding:12px;gap:8px}
+  .navTile{padding:10px;gap:10px;border-radius:12px}
+  .navTile .ico{width:38px;height:38px;border-radius:10px;font-size:1.05rem}
+  .navTile b{font-size:.93rem}
+  .navTile small{font-size:.73rem}
+  .menuBtn{display:none}
+  .scrim{display:none}
+  body{padding-left:236px}
+  header .logo{display:none}
+  header nav{justify-content:flex-start}
+  header nav ul{margin-left:auto}
+  .pageTitle{display:block}
+  body.navOpen{overflow-x:hidden;overflow-y:auto}
+}
+</style>
+<script>
+/* Écran de chargement : uniquement à l'ouverture du site (1 fois par session) */
+(function(){try{
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce&&!sessionStorage.getItem('weldIntroSeen')){
+    document.documentElement.classList.add('has-weld');
+    document.documentElement.setAttribute('data-wlv',['weld','print','circuit'][Math.floor(Math.random()*3)]);
+  }
+}catch(e){}})();
+</script>
+<style>
+/* ===== Chargement : 3 animations (soudure, impression 3D, circuit) tirées au hasard ===== */
+#weldLoader{display:none}
+html.has-weld #weldLoader{display:flex}
+html.has-weld body{overflow:hidden}
+#weldLoader{position:fixed;inset:0;z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:34px;
+  background:radial-gradient(900px 500px at 50% 40%,#33414f 0%,#1b242d 75%);transition:opacity .55s ease,visibility .55s}
+#weldLoader.done{opacity:0;visibility:hidden}
+.wl-stage{display:none;position:relative;width:min(560px,80vw);height:12px}
+html[data-wlv="weld"] .v-weld,html[data-wlv="print"] .v-print{display:block}
+html[data-wlv="circuit"] .v-circuit{display:block;height:60px}
+.wl-pct{font-family:var(--head);font-weight:600;font-size:.95rem;color:var(--muted);letter-spacing:.1em;min-width:5ch;text-align:center}
+.wl-pct b{color:var(--lime);font-weight:700}
+
+/* --- 1. Soudure --- */
+.wl-track{position:absolute;inset:0;border-radius:6px;background:#2a3541;border:1px solid var(--line);box-shadow:inset 0 2px 4px rgba(0,0,0,.45)}
+.wl-track::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:#10161c}
+.wl-bead{position:absolute;left:0;top:50%;height:10px;width:0;margin-top:-5px;border-radius:5px;overflow:hidden;
+  background:
+   radial-gradient(circle at 50% 120%,rgba(0,0,0,.32) 0 3px,transparent 3.5px) 0 0/9px 100%,
+   radial-gradient(circle at 50% -20%,rgba(255,255,255,.28) 0 2px,transparent 2.5px) 4px 0/9px 100%,
+   linear-gradient(90deg,#8d9aa6 0%,#c9f31d 55%,#ffb020 100%);
+  box-shadow:0 0 10px rgba(201,243,29,.45)}
+.wl-bead::after{content:"";position:absolute;right:0;top:0;bottom:0;width:46px;background:linear-gradient(90deg,transparent,rgba(255,176,32,.9) 55%,#fff 100%)}
+.wl-front{position:absolute;left:0;top:50%;width:0;height:0}
+.wl-arc{position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;
+  background:radial-gradient(circle,#fff 0 18%,#bfe8ff 32%,rgba(120,190,255,.55) 55%,transparent 72%);
+  box-shadow:0 0 22px 8px rgba(160,210,255,.55),0 0 46px 18px rgba(201,243,29,.35);animation:wlFlick .09s infinite alternate}
+@keyframes wlFlick{from{transform:scale(.8);opacity:.85}to{transform:scale(1.2);opacity:1}}
+.wl-torch{position:absolute;left:-90px;top:-90px;width:100px;height:100px;overflow:visible;
+  filter:drop-shadow(0 6px 6px rgba(0,0,0,.45));animation:wlShake .12s infinite alternate}
+@keyframes wlShake{from{transform:translate(0,0)}to{transform:translate(.8px,-.8px)}}
+.wl-spark{position:absolute;left:0;top:0;width:3px;height:3px;border-radius:50%;background:#ffd35a;box-shadow:0 0 6px 1px #ffb020;pointer-events:none}
+
+/* --- 2. Impression 3D : une pièce simple imprimée couche par couche --- */
+html[data-wlv="print"] .v-print{display:block;width:min(340px,72vw);height:auto}
+.wl-printer{display:block;width:100%;height:auto;overflow:visible}
+.p-frame{fill:#45525f}
+.p-bed{fill:#3b4652;stroke:#55636f;stroke-width:1.5}
+.p-head{filter:drop-shadow(0 4px 4px rgba(0,0,0,.45))}
+.p-melt{fill:#ffb020;filter:drop-shadow(0 0 5px rgba(255,176,32,.9));animation:wlFlick .2s infinite alternate;transform-box:fill-box;transform-origin:center}
+
+/* --- 3. Circuit électronique --- */
+.wl-circuit{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.c-base{fill:none;stroke:#3b4652;stroke-width:6;stroke-linejoin:round}
+.c-live{fill:none;stroke:var(--lime);stroke-width:3.5;stroke-linejoin:round;filter:drop-shadow(0 0 5px rgba(201,243,29,.8))}
+.c-pad{fill:#2a3541;stroke:#55636f;stroke-width:2.5;transition:fill .2s,stroke .2s}
+.c-pad.on{fill:#10140a;stroke:var(--amber);filter:drop-shadow(0 0 5px rgba(255,176,32,.9))}
+.c-chip{fill:#1b242d;stroke:#55636f;stroke-width:2;transition:stroke .25s}
+.c-chip.on{stroke:var(--lime);filter:drop-shadow(0 0 6px rgba(201,243,29,.6))}
+.c-leg{stroke:#8d9aa6;stroke-width:3}
+.c-pulse{fill:#fff;filter:drop-shadow(0 0 7px #c9f31d) drop-shadow(0 0 14px #c9f31d)}
+</style>
+<style>
+/* ===== Adaptation affichage : téléphone ===== */
+html.is-phone .wrap{padding:0 16px}
+html.is-phone section{padding:18px 0}
+html.is-phone .hero{padding:14px 16px 20px;gap:14px}
+html.is-phone h1{font-size:clamp(1.6rem,8.2vw,2.5rem)}
+html.is-phone .hero .lead{font-size:1rem}
+html.is-phone .frame{width:min(100%,250px)}
+html.is-phone .badge{width:min(100%,250px)}
+html.is-phone .grid{grid-template-columns:repeat(2,1fr)}
+html.is-phone .card{padding:11px 12px}
+html.is-phone .skills{grid-template-columns:1fr}
+html.is-phone .shots{grid-template-columns:repeat(2,1fr);grid-template-rows:auto;gap:8px}
+html.is-phone .shot{height:auto;aspect-ratio:4/3}
+html.is-phone .shot{height:auto;aspect-ratio:4/3}
+html.is-phone .duo{grid-template-columns:1fr}
+html.is-phone .steps{grid-template-columns:1fr}
+html.is-phone .contact .row{grid-template-columns:1fr}
+html.is-phone .cta{flex-direction:column;align-items:stretch}
+html.is-phone .chips{margin-top:12px}
+html.is-phone .tag{font-size:.8rem}
+html.is-phone body{line-height:1.45}
+html.is-phone section{padding:12px 0}
+html.is-phone .sec-head{flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:10px}
+html.is-phone .sec-head p{font-size:.85rem}
+html.is-phone .hero{min-height:0;padding:10px 14px 14px;gap:10px}
+html.is-phone .hero .lead{margin:6px 0 10px;font-size:.92rem}
+html.is-phone .tag{padding:3px 9px;font-size:.75rem;margin-bottom:8px}
+html.is-phone .chips{margin-top:10px;gap:5px}
+html.is-phone .chips span{font-size:.72rem;padding:3px 9px}
+html.is-phone .cta{gap:8px}
+html.is-phone .btn{padding:9px 16px;font-size:.88rem}
+html.is-phone .btn.sm{padding:6px 14px;font-size:.8rem}
+html.is-phone .card{padding:10px}
+html.is-phone .card .ico{width:30px;height:30px;font-size:1rem;margin-bottom:5px}
+html.is-phone .card h3{font-size:.9rem}
+html.is-phone .card p{font-size:.76rem}
+html.is-phone .skill{padding:5px 0}
+html.is-phone .stars{font-size:1rem}
+html.is-phone .more{margin-top:8px}
+html.is-phone .contact .box{padding:12px}
+html.is-phone .faq summary{font-size:.88rem}
+html.is-phone .badge{padding:6px 12px;font-size:.75rem}
+html.is-phone .badge strong{font-size:.9rem}
+html.is-phone .hero-pic{gap:8px}
+html.is-phone .frame{width:min(100%,230px)}
+html.is-phone h2{font-size:clamp(1.25rem,6vw,1.7rem)}
+html.is-phone h1{font-size:clamp(1.5rem,8.5vw,2.3rem)}
+html.is-phone nav{height:52px}
+html.is-phone nav .logo-img{height:40px}
+html.is-phone .callbar{bottom:0}
+</style>
+<style>
+html.is-phone .car{grid-template-columns:1fr}
+html.is-phone .car img{max-height:120px}
+html.is-phone .tile{padding:10px}
+html.is-phone .item img{min-height:120px !important}
+</style>
+<style id="phone-header-compact">
+/* ===== Téléphone : en-tête compact (bouton menu à GAUCHE, logo au MILIEU) + tailles réduites ===== */
+html.is-phone{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:52px}
+html.is-phone body{padding-left:0 !important}
+html.is-phone header nav{display:grid !important;grid-template-columns:40px 1fr 40px;align-items:center;column-gap:8px;height:46px !important;padding:0 !important;row-gap:0 !important;flex-wrap:nowrap}
+html.is-phone header nav .menuBtn{display:inline-flex !important;grid-column:1;grid-row:1;justify-self:start;width:38px;height:38px;padding:0;justify-content:center;border-radius:10px}
+html.is-phone header nav .menuBtn span{display:none !important}
+html.is-phone header nav .logo{display:inline-flex !important;grid-column:2;grid-row:1;justify-self:center}
+html.is-phone header nav .logo-img{height:32px !important;width:auto}
+html.is-phone header nav ul,html.is-phone header nav .pageTitle{display:none !important}
+html.is-phone .wrap{padding:0 14px}
+html.is-phone section{padding:10px 0}
+html.is-phone h1{font-size:clamp(1.35rem,7vw,1.9rem)}
+html.is-phone h2{font-size:clamp(1.1rem,5.2vw,1.4rem)}
+html.is-phone p,html.is-phone li{font-size:.92rem}
+html.is-phone .btn{padding:8px 14px;font-size:.84rem}
+html.is-phone img,html.is-phone video{max-width:100%;height:auto}
+html.is-phone .logo-img{max-width:none}
+/* menu des pages (tiroir) : plus compact */
+html.is-phone .sideNav{width:min(290px,82vw);transform:translateX(-102%);visibility:hidden}
+html.is-phone .sideNav.open{transform:none;visibility:visible}
+html.is-phone .sideNav-close{display:block}
+html.is-phone .railBrand{height:48px}
+html.is-phone .railBrand img{height:30px}
+html.is-phone .sideNav-body{gap:7px;padding:10px}
+html.is-phone .navTile{padding:8px 10px;gap:9px;border-radius:11px}
+html.is-phone .navTile .ico{width:34px;height:34px;font-size:1rem}
+html.is-phone .navTile b{font-size:.88rem}
+html.is-phone .navTile small{font-size:.7rem}
+html.is-phone .navFilters a{font-size:.75rem;padding:6px 10px}
+</style>
+<style id="chk-css">
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:.8rem;line-height:1.35;color:var(--muted,#bac5d0);text-align:left}
+.chk input[type=checkbox]{width:18px;height:18px;flex:none;margin:1px 0 0;padding:0;accent-color:var(--lime,#c9f31d)}
+.chk a{text-decoration:underline;color:var(--lime,#c9f31d)}
+html.is-phone .chk{font-size:.74rem}
+</style>
+<style id="phone-hero">
+/* Téléphone : même disposition que sur PC (texte à gauche, photo en haut à droite) */
+html.is-phone .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(104px,33%);align-items:start;column-gap:12px;row-gap:0;text-align:left;padding:10px 14px 12px}
+html.is-phone .hero-pic{order:0;grid-column:2;grid-row:1;align-self:start;gap:6px}
+html.is-phone .hero-txt{grid-column:1;grid-row:1}
+html.is-phone .frame{width:100%;border-radius:16px}
+html.is-phone .frame::before{inset:-4px;border-radius:19px}
+html.is-phone .badge{width:100%;padding:5px 7px;font-size:.6rem;line-height:1.3;border-radius:10px}
+html.is-phone .badge strong{font-size:.7rem}
+html.is-phone .hero h1{font-size:clamp(1.15rem,6vw,1.6rem)}
+html.is-phone .hero .lead{font-size:.82rem;margin:6px 0 8px}
+html.is-phone .hero .cta{flex-direction:row;flex-wrap:wrap}
+html.is-phone .hero .cta .btn{padding:7px 11px;font-size:.78rem}
+html.is-phone .hero .chips span{font-size:.66rem;padding:2px 8px}
+</style>
+</head>
+<body>
+<div id="weldLoader" role="status" aria-live="polite" aria-label="Chargement du site">
+
+  <!-- 1. Soudure -->
+  <div class="wl-stage v-weld">
+    <div class="wl-track"></div>
+    <div class="wl-bead" id="wlBead"></div>
+    <div class="wl-front" id="wlFront">
+      <svg class="wl-torch" viewBox="0 0 100 100" aria-hidden="true">
+        <g transform="translate(90 90) rotate(-135)">
+          <path d="M0 -2 L16 -6 L16 6 L0 2 Z" fill="#c98a3a"/>
+          <rect x="16" y="-8" width="9" height="16" rx="2" fill="#6b7783"/>
+          <rect x="25" y="-5.5" width="20" height="11" fill="#3b4652"/>
+          <rect x="45" y="-8" width="34" height="16" rx="5" fill="#ffb020"/>
+          <g stroke="#10140a" stroke-opacity=".35" stroke-width="1.5">
+            <line x1="53" y1="-8" x2="53" y2="8"/><line x1="60" y1="-8" x2="60" y2="8"/>
+            <line x1="67" y1="-8" x2="67" y2="8"/><line x1="74" y1="-8" x2="74" y2="8"/>
+          </g>
+          <rect x="79" y="-3.5" width="30" height="7" rx="3" fill="#232e3a" stroke="#45525f"/>
+        </g>
+      </svg>
+      <div class="wl-arc"></div>
+    </div>
+  </div>
+
+  <!-- 2. Impression 3D -->
+  <div class="wl-stage v-print">
+    <svg class="wl-printer" viewBox="0 0 300 170" aria-hidden="true">
+      <defs>
+        <pattern id="wlLayers" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="translate(0 2)">
+          <rect width="4" height="4" fill="#a9cc12"/><rect width="4" height="3" fill="#c9f31d"/>
+        </pattern>
+        <linearGradient id="wlHot" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffb020" stop-opacity=".95"/><stop offset="1" stop-color="#ffb020" stop-opacity="0"/>
+        </linearGradient>
+        <clipPath id="wlPClip"><rect id="wlPClipR" x="90" y="150" width="120" height="0"/></clipPath>
+      </defs>
+      <rect class="p-frame" x="24" y="6" width="6" height="146" rx="2"/>
+      <rect class="p-frame" x="270" y="6" width="6" height="146" rx="2"/>
+      <rect class="p-bed" x="20" y="150" width="260" height="10" rx="3"/>
+      <g clip-path="url(#wlPClip)">
+        <rect x="110" y="50" width="80" height="100" fill="url(#wlLayers)"/>
+        <rect id="wlHotR" x="110" y="50" width="80" height="10" fill="url(#wlHot)"/>
+      </g>
+      <rect class="p-frame" id="wlRail" x="24" y="110" width="252" height="5" rx="2"/>
+      <g id="wlHead" class="p-head">
+        <rect x="-22" y="-34" width="44" height="22" rx="4" fill="#3b4652" stroke="#55636f"/>
+        <rect x="-16" y="-29" width="32" height="5" rx="2" fill="#ffb020"/>
+        <path d="M-9 -12 H9 L4 -1 H-4 Z" fill="#c98a3a"/>
+        <circle class="p-melt" cx="0" cy="1" r="3"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- 3. Circuit électronique -->
+  <div class="wl-stage v-circuit">
+    <svg class="wl-circuit" viewBox="0 0 560 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <path class="c-base" d="M0 30 H110 L130 12 H250 L270 30 H330 L350 48 H450 L470 30 H560"/>
+      <path class="c-live" id="wlCPath" d="M0 30 H110 L130 12 H250 L270 30 H330 L350 48 H450 L470 30 H560"/>
+      <g class="c-legs">
+        <line class="c-leg" x1="285" y1="14" x2="285" y2="20"/><line class="c-leg" x1="300" y1="14" x2="300" y2="20"/><line class="c-leg" x1="315" y1="14" x2="315" y2="20"/>
+        <line class="c-leg" x1="285" y1="40" x2="285" y2="46"/><line class="c-leg" x1="300" y1="40" x2="300" y2="46"/><line class="c-leg" x1="315" y1="40" x2="315" y2="46"/>
+      </g>
+      <rect class="c-chip" id="wlChip" x="272" y="20" width="56" height="20" rx="3"/>
+      <circle cx="279" cy="26" r="2" fill="#55636f"/>
+      <circle class="c-pad" data-x="4" cx="4" cy="30" r="6"/>
+      <circle class="c-pad" data-x="130" cx="130" cy="12" r="6"/>
+      <circle class="c-pad" data-x="250" cx="250" cy="12" r="6"/>
+      <circle class="c-pad" data-x="350" cx="350" cy="48" r="6"/>
+      <circle class="c-pad" data-x="450" cx="450" cy="48" r="6"/>
+      <circle class="c-pad" data-x="556" cx="556" cy="30" r="6"/>
+      <circle class="c-pulse" id="wlPulse" cx="0" cy="30" r="5"/>
+    </svg>
+  </div>
+
+  <div class="wl-pct"><b id="wlPct">0</b> %</div>
+</div>
+<a class="skip" href="#top">Aller au contenu</a>
+
+<header>
+  <div class="wrap">
+    <nav aria-label="Navigation principale">
+      <a href="#top" class="logo"><img class="logo-img" src="logo/logo.jpg" alt="PBMecatec" width="480" height="186"></a>
+      <ul>
+        <li><a href="#prestations">Prestations</a></li>
+        <li><a href="#competences">Compétences</a></li>
+        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button type="button" class="menuBtn" id="menuBtn" aria-expanded="false" aria-controls="sideNav" aria-label="Ouvrir le menu des pages">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <span>Pages</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<div class="scrim" id="scrim" hidden></div>
+<div class="sideNav" id="sideNav" role="navigation" aria-label="Pages du site">
+  <div class="railBrand">
+    <a href="index.html"><img src="logo/logo.jpg" alt="PBMecatec — Accueil" width="480" height="186"></a>
+    <button type="button" class="sideNav-close" id="navClose" aria-label="Fermer le menu">✕</button>
+  </div>
+  <div class="sideNav-body">
+    <p class="sideNav-title">Pages du site</p>
+  <a class="navTile" href="index.html" aria-current="page"><span class="ico" aria-hidden="true">🏠</span><span><b>Accueil</b><small>Présentation, prestations et contact</small></span></a>
+  <button type="button" class="navTile toggle" id="galToggle" aria-expanded="false" aria-controls="galFilters"><span class="ico" aria-hidden="true">🖼️</span><span><b>Galerie photos</b><small>Réalisations, véhicules et projets</small></span><svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="navFilters" id="galFilters" role="group" aria-label="Filtres de la galerie" hidden>
+    <a class="all" href="gallery.html">Tout voir</a>
+    <a href="gallery.html#soudure">Soudure</a>
+    <a href="gallery.html#conception">Conception</a>
+    <a href="gallery.html#impression-3d">Impression 3D</a>
+    <a href="gallery.html#mecanique">Mécanique</a>
+    <a href="gallery.html#electricite">Électricité</a>
+    <a href="gallery.html#electronique">Électronique</a>
+    <a href="gallery.html#voiture">Prêt de voiture</a>
+    <a href="gallery.html#applications">Applications</a>
+  </div>
+  <a class="navTile" href="locations.html"><span class="ico" aria-hidden="true">🧰</span><span><b>Locations</b><small>Outils de l'atelier à louer</small></span></a>
+  <a class="navTile" href="ventes.html"><span class="ico" aria-hidden="true">🏷️</span><span><b>Ventes</b><small>Réalisations, outils et matériel à vendre</small></span></a>
+  <a class="navTile" href="dons.html"><span class="ico" aria-hidden="true">🎁</span><span><b>Dons</b><small>J'accepte vos dons matériel</small></span></a>
+
+  <p class="sideNav-foot">Mécanique · Soudure · Électronique</p>
+  </div>
+</div>
+
+<main id="top">
+  <div class="wrap hero">
+    <div class="hero-txt">
+      <div class="tag"><b></b> Disponible pour vos projets</div>
+      <h1>Je conçois, soude, répare <span>et programme.</span></h1>
+      <p class="lead">Mécanique, électricité, impression 3D et applications sur mesure : de l'idée à la pièce finie, avec un résultat propre et durable.</p>
+      <div class="cta">
+        <a class="btn main" href="#contact">Demander un devis</a>
+        <a class="btn" href="#realisations">Voir mes réalisations</a>
+      </div>
+      <div class="chips"><span>Soudure</span><span>Conception</span><span>Impression 3D</span><span>Électronique</span><span>Applications</span><span>Shooting auto</span></div>
+    </div>
+    <div class="hero-pic" id="tilt">
+      <div class="frame"><div class="screen">
+        <img src="profil/portrait.webp" alt="Pascal Bernier devant sa Lotus Elise jaune" width="734" height="860">
+      </div></div>
+      <div class="badge"><strong>BERNIER Pascal <b id="age">33 ans</b></strong>Mécanique · Électronique · Applications</div>
+    </div>
+  </div>
+
+  <section id="prestations">
+    <div class="wrap">
+      <div class="sec-head"><h2>Prestations</h2><p>Un seul interlocuteur, de la conception à la réalisation.</p></div>
+      <div class="grid">
+        <a class="card" href="gallery.html#soudure" aria-label="Voir les photos : Soudure"><span class="go">Voir les photos</span><div class="ico">🔥</div><h3>Soudure</h3><p>Châssis, supports, réparations et pièces sur mesure en acier.</p></a>
+        <a class="card" href="gallery.html#conception" aria-label="Voir les photos : Conception"><span class="go">Voir les photos</span><div class="ico">📐</div><h3>Conception</h3><p>Vélos, trikes, meubles et objets sur plan, du croquis à la fabrication.</p></a>
+        <a class="card" href="gallery.html#impression-3d" aria-label="Voir les photos : Impression 3D"><span class="go">Voir les photos</span><div class="ico">🧊</div><h3>Impression 3D</h3><p>Prototypes et pièces techniques à l'unité ou en petite série.</p></a>
+        <a class="card" href="gallery.html#mecanique" aria-label="Voir les photos : Mécanique"><span class="go">Voir les photos</span><div class="ico">⚙️</div><h3>Mécanique</h3><p>Entretien, diagnostic et réparation, thermique comme électrique.</p></a>
+        <a class="card" href="gallery.html#electricite" aria-label="Voir les photos : Électricité"><span class="go">Voir les photos</span><div class="ico">⚡</div><h3>Électricité</h3><p>Câblage, installation et motorisation électrique.</p></a>
+        <a class="card" href="gallery.html#electronique" aria-label="Voir les photos : Réparation électronique"><span class="go">Voir les photos</span><div class="ico">🔬</div><h3>Réparation électronique</h3><p>Recherche de panne et remise en état de cartes électroniques.</p></a>
+        <a class="card" href="gallery.html#voiture" aria-label="Voir les photos : Prêt de voiture"><span class="go">Voir les photos</span><div class="ico">📸</div><h3>Prêt de voiture</h3><p>Ma Lotus Elise pour vos shootings photo, sur réservation.</p></a>
+        <a class="card" href="gallery.html#applications" aria-label="Voir les photos : Applications"><span class="go">Voir les photos</span><div class="ico">💻</div><h3>Applications</h3><p>Outils de gestion d'entreprise sur mesure : stocks, suivi, tableaux de bord.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="competences">
+    <div class="wrap">
+      <div class="sec-head"><h2>Compétences</h2><p>Mon niveau, en toute transparence.</p></div>
+      <div class="skills">
+        <div class="skill"><span>Soudure (MIG, TIG, arc)</span><div class="stars" style="--v:4"></div></div>
+        <div class="skill"><span>Mécanique générale</span><div class="stars" style="--v:4"></div></div>
+        <div class="skill"><span>Conception / CAO</span><div class="stars" style="--v:4.5"></div></div>
+        <div class="skill"><span>Électricité</span><div class="stars" style="--v:4"></div></div>
+        <div class="skill"><span>Impression 3D</span><div class="stars" style="--v:4"></div></div>
+        <div class="skill"><span>Réparation de cartes électroniques</span><div class="stars" style="--v:3"></div></div>
+        <div class="skill"><span>Fabrication de véhicules sur mesure</span><div class="stars" style="--v:5"></div></div>
+        <div class="skill"><span>Applications de gestion (PowerShell)</span><div class="stars" style="--v:4"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="avis" hidden>
+    <div class="wrap">
+      <div class="sec-head"><h2>Avis clients</h2><p id="avisSum">Retours de personnes que j'ai accompagnées.</p></div>
+      <div class="avis" id="avisList"></div>
+      <p class="noav" id="avisEmpty" hidden>Aucun avis pour le moment : soyez le premier à en laisser un !</p>
+      <div class="more"><button class="btn" id="avisBtn" type="button" aria-expanded="false" aria-controls="avisForm">Laisser un avis</button></div>
+      <form id="avisForm" class="box avisform" hidden>
+        <div><small class="lbl">Votre note</small><div class="rate" id="rate" role="group" aria-label="Note de 1 à 5 étoiles"></div></div>
+        <input name="nom" placeholder="Prénom et initiale (ex. Marie D.)" maxlength="40" required aria-label="Prénom et initiale" autocomplete="given-name">
+        <textarea name="texte" placeholder="Votre avis (10 caractères minimum)" minlength="10" maxlength="600" required aria-label="Votre avis"></textarea>
+        <input class="hp" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="chk"><input type="checkbox" name="consent" required> J'accepte que mon prénom, ma note et mon avis soient publiés sur ce site après validation.</label>
+        <label class="chk"><input type="checkbox" name="consent_stockage" required> <span>J'ai lu les <a href="mentions.html#donnees" target="_blank" rel="noopener">mentions légales</a> et j'accepte que mon prénom, ma note et mon avis soient enregistrés pour être modérés.</span></label>
+        <label class="chk"><input type="checkbox" name="consent_google" required> <span>Je comprends que mes données sont traitées via les services de Google (Sheets, Apps Script, Gmail), ce qui peut impliquer un transfert hors de l'Union européenne.</span></label>
+        <button class="btn main" type="submit">Envoyer mon avis</button>
+        <p class="st" id="avisMsg" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="realisations">
+    <div class="wrap">
+      <div class="sec-head"><h2>Mes créations</h2><p>Conçues et fabriquées dans mon atelier.</p></div>
+      <div class="shots" id="shots">
+        <figure class="shot"><img src="galerie/soudure/drift-trike.webp" alt="Drift trike thermique" loading="lazy"><figcaption>Drift trike thermique</figcaption></figure>
+        <figure class="shot"><img src="galerie/soudure/chopper-electrique.webp" alt="Chopper électrique" loading="lazy"><figcaption>Chopper électrique</figcaption></figure>
+        <figure class="shot"><img src="galerie/soudure/trio.webp" alt="Trois trikes et choppers" loading="lazy"><figcaption>La gamme</figcaption></figure>
+      </div>
+      <div class="more"><a class="btn" href="gallery.html">Voir toute la galerie →</a></div>
+    </div>
+  </section>
+
+  <section id="voiture">
+    <div class="wrap">
+      <div class="car">
+        <img src="galerie/voiture/lotus.webp" alt="Lotus Elise jaune" loading="lazy">
+        <div>
+          <h3>Lotus Elise : pour vos shootings photo</h3>
+          <p>Une sportive jaune qui se remarque, disponible sur réservation pour vos séances photo, clips ou événements.</p>
+          <div class="cta"><a class="btn main sm" href="#contact">Réserver la voiture</a><a class="btn sm" href="gallery.html#voiture">Voir la galerie</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="extras">
+    <div class="wrap">
+      <div class="duo">
+        <a class="tile" href="locations.html"><div class="ico">🧰</div><div><h3>Location de matériel</h3><p>Des outils de l'atelier à louer, avec photo et description.</p></div></a>
+        <a class="tile" href="ventes.html"><div class="ico">🏷️</div><div><h3>Réalisations et matériel à vendre</h3><p>Réalisations, outils et matériel d'occasion de l'atelier, avec photo et prix.</p></div></a>
+        <a class="tile" href="dons.html"><div class="ico">🎁</div><div><h3>J'accepte vos dons matériel</h3><p>Un objet dont vous ne vous servez plus ? Envoyez-moi une photo.</p></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="methode">
+    <div class="wrap">
+      <div class="sec-head"><h2>Comment ça marche</h2><p>Simple, clair, sans surprise.</p></div>
+      <ol class="steps">
+        <li><b>1</b><h3>Vous me décrivez le besoin</h3><p>Par le formulaire ou par e-mail, avec des photos si possible.</p></li>
+        <li><b>2</b><h3>Je vous fais un devis gratuit</h3><p>Prix et délai annoncés avant de commencer.</p></li>
+        <li><b>3</b><h3>Je réalise le travail</h3><p>Fabrication, réparation ou développement, avec un suivi régulier.</p></li>
+        <li><b>4</b><h3>Livraison et conseils</h3><p>Pièce ou outil prêt à l'emploi, avec les explications utiles.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head"><h2>Questions fréquentes</h2></div>
+      <div class="faq">
+        <details><summary>Le devis est-il vraiment gratuit ?</summary><p>Oui, le devis est gratuit et sans engagement.</p></details>
+        <details><summary>Où intervenez-vous ?</summary><p>Dans le Bas-Rhin (67) et les environs. Pour une pièce à fabriquer ou une carte à réparer, un envoi ou un dépôt est possible.</p></details>
+        <details><summary>Quelles informations dois-je donner pour un devis ?</summary><p>Décrivez le besoin, ajoutez des photos ou un plan si vous en avez, et indiquez le délai souhaité.</p></details>
+        <details><summary>Comment réserver la Lotus pour un shooting ?</summary><p>Utilisez le formulaire en choisissant « Prêt de voiture (shooting) », avec la date et le lieu envisagés.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head"><h2>Contact</h2><p>Réponse rapide, devis gratuit.</p></div>
+      <div class="contact">
+        <div class="box">
+          <ul class="info">
+            <li><em>✉️</em><div><small>E-mail</small><a href="mailto:PBMecatec@hotmail.com">PBMecatec@hotmail.com</a> <button type="button" class="copy" id="copyMail" aria-label="Copier l'adresse e-mail">Copier</button></div></li>
+            <li><em>📍</em><div><small>Zone d'intervention</small>Bas-Rhin (67) et alentours</div></li>
+            <li><em>📷</em><div><small>Instagram</small><a href="https://www.instagram.com/littlekeupon/" target="_blank" rel="noopener">@littlekeupon</a></div></li>
+          </ul>
+        </div>
+        <div class="box">
+          <form id="f">
+            <div class="row"><input name="nom" placeholder="Votre nom" required aria-label="Votre nom" autocomplete="name"><input name="email" type="email" placeholder="Votre e-mail" required aria-label="Votre e-mail" autocomplete="email"></div>
+            <div class="row"><input name="tel" type="tel" placeholder="Téléphone (facultatif)" aria-label="Téléphone (facultatif)" autocomplete="tel">
+            <select name="sujet" aria-label="Type de demande">
+              <option>Soudure</option><option>Conception</option><option>Impression 3D</option><option>Mécanique</option><option>Électricité</option><option>Réparation électronique</option><option>Prêt de voiture (shooting)</option><option>Location d'outil</option><option>Application de gestion</option><option>Autre</option>
+            </select></div>
+            <textarea name="msg" placeholder="Décrivez votre besoin" required minlength="5" maxlength="2000" aria-label="Votre message"></textarea>
+            <input class="hp" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <label class="chk"><input type="checkbox" name="consent_stockage" required> <span>J'ai lu les <a href="mentions.html#donnees" target="_blank" rel="noopener">mentions légales</a> et j'accepte que mes données (nom, e-mail, téléphone, message) soient enregistrées pour traiter ma demande, pendant 3 ans maximum.</span></label>
+            <label class="chk"><input type="checkbox" name="consent_google" required> <span>Je comprends que mes données sont traitées via les services de Google (Sheets, Apps Script, Gmail), ce qui peut impliquer un transfert hors de l'Union européenne.</span></label>
+            <button class="btn main" type="submit">Envoyer la demande</button>
+            <p class="st" id="msg" role="status"></p>
+            <p class="legal">Vous pouvez demander l'accès, la rectification ou la suppression de vos données, ou retirer votre consentement, à tout moment par e-mail. <a href="mentions.html#donnees">En savoir plus</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>© <span id="y"></span> PBMecatec</span><a href="mentions.html">Mentions légales</a></div></footer>
+
+<div class="callbar"><a class="btn" href="mailto:PBMecatec@hotmail.com">Écrire</a><a class="btn main" href="#contact">Demander un devis</a></div>
+
+<script>
+// ===== SERVICE D'ENVOI : demandes de devis + avis clients =====
+// Collez entre les guillemets l'adresse du « déploiement web » Google Apps Script (voir apps-script/Code.gs).
+// Tant qu'elle est vide, l'envoi en ligne est désactivé et la section Avis reste cachée.
+const API_URL = "https://script.google.com/macros/s/AKfycbxAvpIE5mm2_YU8y0mAQCIhU3_s0dXIjdkQSBktzFI7EE1-sNMc3c_iev1NuF9rVsf2/exec";
+
+const T0 = Date.now();
+function envoyer(type, data) {
+  /* envoi par formulaire caché (navigation dans une zone invisible) : fonctionne même quand fetch() est bloqué */
+  return new Promise((resolve, reject) => {
+    const name = 'tx' + Date.now();
+    const ifr = document.createElement('iframe'); ifr.name = name; ifr.title = 'envoi'; ifr.style.display = 'none'; ifr.setAttribute('aria-hidden', 'true');
+    const form = document.createElement('form'); form.method = 'POST'; form.action = API_URL; form.target = name; form.acceptCharset = 'UTF-8'; form.style.display = 'none';
+    const inp = document.createElement('input'); inp.type = 'hidden'; inp.name = 'payload'; inp.value = JSON.stringify({ type, delay: Date.now() - T0, ...data });
+    form.appendChild(inp); document.body.append(ifr, form);
+    const t1 = Date.now(); let done = false, tm;
+    const end = err => { if (done) return; done = true; clearTimeout(tm); setTimeout(() => { ifr.remove(); form.remove(); }, 500); err ? reject(new Error(err)) : resolve(); };
+    ifr.addEventListener('load', () => { if (Date.now() - t1 > 300) end(); }); /* on ignore le chargement vide du départ */
+    tm = setTimeout(() => end('délai dépassé'), 25000);
+    form.submit();
+  });
+}
+const say = (el, txt, ok) => { el.textContent = txt; el.style.color = ok ? 'var(--lime)' : '#ff8a7a'; };
+
+// --- Avis publiés ---
+async function chargerAvis() {
+  if (!API_URL) return;
+  document.getElementById('avis').hidden = false;
+  const list = document.getElementById('avisList'), empty = document.getElementById('avisEmpty'), sum = document.getElementById('avisSum');
+  try {
+    const j = await (await fetch(API_URL)).json();
+    const avis = (j.avis || []).slice(0, 12);
+    list.innerHTML = '';
+    avis.forEach(a => {
+      const d = document.createElement('article'); d.className = 'rev';
+      const n = Math.max(1, Math.min(5, Number(a.note) || 5));
+      d.innerHTML = `<div class="stars on" style="--v:${n}" role="img" aria-label="${n} sur 5"></div><p></p><b></b> <small></small>`;
+      d.querySelector('p').textContent = a.texte; d.querySelector('b').textContent = a.nom;
+      const dt = new Date(a.date); d.querySelector('small').textContent = isNaN(dt) ? '' : dt.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+      list.appendChild(d);
+    });
+    empty.hidden = avis.length > 0;
+    if (avis.length) sum.textContent = (avis.reduce((t, a) => t + Number(a.note), 0) / avis.length).toFixed(1).replace('.', ',') + ' / 5 · ' + avis.length + ' avis';
+  } catch (e) { empty.hidden = false; empty.textContent = 'Les avis ne peuvent pas être chargés pour le moment.'; }
+}
+chargerAvis();
+
+// --- Formulaire d'avis ---
+let note = 0;
+const rate = document.getElementById('rate'), avisForm = document.getElementById('avisForm'), avisBtn = document.getElementById('avisBtn');
+const paint = () => [...rate.children].forEach((b, i) => { b.classList.toggle('on', i < note); b.setAttribute('aria-pressed', i < note); });
+for (let i = 1; i <= 5; i++) {
+  const b = document.createElement('button'); b.type = 'button'; b.textContent = '★'; b.setAttribute('aria-label', i + ' sur 5');
+  b.onclick = () => { note = i; paint(); }; rate.appendChild(b);
+}
+avisBtn.addEventListener('click', () => { const open = avisForm.hidden; avisForm.hidden = !open; avisBtn.setAttribute('aria-expanded', open); open && avisForm.querySelector('input[name=nom]').focus(); });
+avisForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target, st = document.getElementById('avisMsg'), btn = f.querySelector('button[type=submit]'), x = f.elements;
+  if (!note) return say(st, 'Choisissez une note de 1 à 5 étoiles.', false);
+  btn.disabled = true; say(st, 'Envoi en cours…', true);
+  try {
+    await envoyer('avis', { note, nom: x.nom.value, texte: x.texte.value, site: x.site.value, consent: x.consent.checked });
+    f.reset(); note = 0; paint(); say(st, 'Merci ! Votre avis sera publié après validation.', true);
+  } catch (err) { say(st, "Envoi impossible pour le moment. Merci de réessayer plus tard. (détail : " + err.message + ")", false); }
+  btn.disabled = false;
+});
+
+// --- À MODIFIER : adresse qui reçoit les demandes du formulaire ---
+const EMAIL = "PBMecatec@hotmail.com";
+
+document.getElementById('y').textContent = new Date().getFullYear();
+
+// Âge calculé automatiquement (né le 26/02/1993)
+(() => {
+  const n = new Date(), b = new Date(1993, 1, 26);
+  let a = n.getFullYear() - b.getFullYear();
+  if (n < new Date(n.getFullYear(), 1, 26)) a--;
+  document.getElementById('age').textContent = a + ' ans';
+})();
+
+
+// Apparition douce des sections
+const rv = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); rv.unobserve(x.target); } }), { threshold: .08 });
+document.querySelectorAll('section .wrap').forEach(el => { el.classList.add('rv'); rv.observe(el); });
+
+// Menu : met en évidence la section affichée
+const links = [...document.querySelectorAll('nav ul a')];
+const so = new IntersectionObserver(es => es.forEach(x => {
+  if (x.isIntersecting) links.forEach(a => a.classList.toggle('act', a.getAttribute('href') === '#' + x.target.id));
+}), { rootMargin: '-45% 0px -50% 0px' });
+links.forEach(a => { const t = document.querySelector(a.getAttribute('href')); t && so.observe(t); });
+
+// Copier l'adresse e-mail
+const cp = document.getElementById('copyMail');
+cp && cp.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(EMAIL); cp.textContent = 'Copié ✓'; } catch (e) { cp.textContent = 'Copie impossible'; }
+  setTimeout(() => cp.textContent = 'Copier', 2000);
+});
+
+// Les photos des créations ouvrent la galerie
+document.querySelectorAll('.shot').forEach(f => f.addEventListener('click', () => location.href = 'gallery.html'));
+
+// Formulaire de devis : envoi direct, sans ouvrir l'application e-mail
+document.getElementById('f').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target, st = document.getElementById('msg'), btn = f.querySelector('button[type=submit]'), x = f.elements;
+  if (!API_URL) return say(st, "L'envoi en ligne n'est pas encore activé. Écrivez-moi à " + EMAIL + ".", false);
+  btn.disabled = true; say(st, 'Envoi en cours…', true);
+  try {
+    await envoyer('devis', { nom: x.nom.value, email: x.email.value, tel: x.tel.value, sujet: x.sujet.value, msg: x.msg.value, site: x.site.value, consent: true });
+    f.reset(); say(st, 'Merci ! Votre demande est bien envoyée, je vous réponds rapidement.', true);
+  } catch (err) { say(st, "Envoi impossible pour le moment. Écrivez-moi à " + EMAIL + ". (détail : " + err.message + ")", false); }
+  btn.disabled = false;
+});
+
+// Halo lumineux qui suit la souris sur les cartes
+document.querySelectorAll('.card').forEach(c => c.addEventListener('pointermove', e => {
+  const r = c.getBoundingClientRect();
+  c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+  c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+}));
+
+// Effet 3D léger sur la photo principale
+const pic = document.querySelector('.frame'), img = pic.querySelector('img');
+pic.addEventListener('pointermove', e => {
+  const r = pic.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+  img.style.transform = `translate(${x * -6}px,${y * -4}px)`;
+});
+pic.addEventListener('pointerleave', () => img.style.transform = '');
+
+// Les étoiles se remplissent quand la section apparaît
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting) {
+    en.target.querySelectorAll('.stars').forEach((s, i) => { s.style.setProperty('--d', i * .08 + 's'); s.classList.add('on'); });
+    io.unobserve(en.target);
+  }
+}), { threshold: .3 });
+io.observe(document.querySelector('.skills'));
+</script>
+<script>
+// Menu lateral des pages (tuiles)
+(() => {
+  const btn = document.getElementById('menuBtn');
+  const panel = document.getElementById('sideNav');
+  const scrim = document.getElementById('scrim');
+  const close = document.getElementById('navClose');
+  if (!btn || !panel || !scrim || !close) return;
+  let timer;
+  const open = () => {
+    clearTimeout(timer);
+    scrim.hidden = false;
+    requestAnimationFrame(() => scrim.classList.add('on'));
+    panel.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('navOpen');
+    requestAnimationFrame(() => close.focus());
+  };
+  const shut = () => {
+    panel.classList.remove('open');
+    scrim.classList.remove('on');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('navOpen');
+    clearTimeout(timer);
+    timer = setTimeout(() => { if (!panel.classList.contains('open')) scrim.hidden = true; }, 280);
+    btn.focus();
+  };
+  btn.addEventListener('click', open);
+  close.addEventListener('click', shut);
+  scrim.addEventListener('click', shut);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('open')) shut(); });
+  const wide = matchMedia('(min-width:1100px)');
+  const reset = () => {
+    if (!wide.matches) return;
+    panel.classList.remove('open');
+    scrim.classList.remove('on');
+    scrim.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('navOpen');
+  };
+  wide.addEventListener('change', reset);
+})();
+
+// Tuile « Galerie photos » : un clic déplie/replie les filtres, sans ouvrir la page
+(() => {
+  const t = document.getElementById('galToggle');
+  const f = document.getElementById('galFilters');
+  if (!t || !f) return;
+  t.addEventListener('click', () => {
+    const open = f.hidden;
+    f.hidden = !open;
+    t.setAttribute('aria-expanded', String(open));
+  });
+})();
+</script>
+<script>
+/* Écran de chargement : 3 animations tirées au hasard (ouverture du site uniquement) */
+(function(){
+  var root=document.documentElement;
+  var loader=document.getElementById('weldLoader');
+  if(!loader)return;
+  if(!root.classList.contains('has-weld')){loader.remove();return;}
+  try{sessionStorage.setItem('weldIntroSeen','1');}catch(e){}
+  var variant=root.getAttribute('data-wlv')||'weld';
+  var pct=document.getElementById('wlPct');
+  var MIN=2400,start=performance.now(),loaded=document.readyState==='complete',finished=false,lastSpark=0;
+  window.addEventListener('load',function(){loaded=true;});
+
+  /* 1. Soudure */
+  var bead=document.getElementById('wlBead'),front=document.getElementById('wlFront');
+  var wStage=loader.querySelector('.v-weld');
+  function spark(){
+    if(!front.animate)return;
+    var s=document.createElement('i');s.className='wl-spark';front.appendChild(s);
+    var dx=(Math.random()-.7)*70,dy=-(15+Math.random()*45),d=350+Math.random()*350;
+    s.animate([
+      {transform:'translate(0,0)',opacity:1},
+      {transform:'translate('+dx*.6+'px,'+dy+'px)',opacity:1,offset:.45},
+      {transform:'translate('+dx+'px,'+(dy+55)+'px)',opacity:0}
+    ],{duration:d,easing:'ease-out'}).onfinish=function(){s.remove();};
+  }
+  function drawWeld(p,now){
+    var w=wStage.clientWidth*p;
+    bead.style.width=w+'px';front.style.transform='translateX('+w+'px)';
+    if(now-lastSpark>45&&p<1){lastSpark=now;spark();if(Math.random()>.5)spark();}
+  }
+
+  /* 2. Impression 3D : la pièce monte couche par couche, la buse balaie chaque couche */
+  var pClip=document.getElementById('wlPClipR'),pHead=document.getElementById('wlHead'),pRail=document.getElementById('wlRail'),pHot=document.getElementById('wlHotR');
+  function drawPrint(p,now){
+    var h=100*p,top=150-h;
+    pClip.setAttribute('y',top);pClip.setAttribute('height',h);
+    pHot.setAttribute('y',top);
+    var f=(now/1000*2.4)%2,tri=f<1?f:2-f;
+    var x=114+72*tri;
+    pHead.setAttribute('transform','translate('+x+' '+top+')');
+    pRail.setAttribute('y',top-30);
+  }
+
+  /* 3. Circuit électronique */
+  var cpath=document.getElementById('wlCPath'),pulse=document.getElementById('wlPulse'),chip=document.getElementById('wlChip');
+  var pads=[].slice.call(loader.querySelectorAll('.c-pad'));
+  var clen=cpath.getTotalLength();
+  cpath.style.strokeDasharray=clen;cpath.style.strokeDashoffset=clen;
+  function drawCircuit(p){
+    var l=clen*p,pt=cpath.getPointAtLength(l);
+    cpath.style.strokeDashoffset=clen-l;
+    pulse.setAttribute('cx',pt.x);pulse.setAttribute('cy',pt.y);
+    pads.forEach(function(d){d.classList.toggle('on',pt.x>=+d.getAttribute('data-x')-1);});
+    chip.classList.toggle('on',pt.x>=330);
+  }
+
+  function end(){
+    if(finished)return;finished=true;
+    loader.classList.add('done');root.classList.remove('has-weld');
+    setTimeout(function(){loader.remove();},650);
+  }
+  function frame(now){
+    var t=Math.min((now-start)/MIN,1);
+    var p=t<1?(1-Math.pow(1-t,1.6)):1;
+    if(!loaded)p=Math.min(p,.92);
+    if(variant==='print')drawPrint(p,now);
+    else if(variant==='circuit')drawCircuit(p);
+    else drawWeld(p,now);
+    pct.textContent=Math.round(p*100);
+    if(p>=1&&loaded){setTimeout(end,250);return;}
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  setTimeout(end,6000);
+})();
+</script>
+<script src="donnees.js"></script>
+<script>
+/* ===== Filtres de la galerie (page d'accueil) =====
+   La liste vient de galerie/photos.json : aucune catégorie n'est écrite en dur.
+   Ajouter un dossier dans galerie/ suffit pour voir apparaître la tuile.
+   Le nombre de photos est affiché à côté de chaque filtre, comme dans gallery.html. */
+(() => {
+  const box = document.getElementById('galFilters');
+  if (!box) return;
+  const LABELS = { soudure: 'Soudure', conception: 'Conception', 'impression-3d': 'Impression 3D', mecanique: 'Mécanique', electricite: 'Électricité', electronique: 'Réparation électronique', voiture: 'Prêt de voiture', applications: 'Applications' };
+  const ORDER = Object.keys(LABELS);
+  const slug = c => String(c).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[\s_]+/g, '-');
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const toLabel = id => LABELS[id] || id.replace(/-/g, ' ').replace(/^./, c => c.toUpperCase());
+
+  /* Catégorie utilisée pour les 3 photos de la section "Mes créations" (modifiable) */
+  const SHOTS_CAT = 'soudure';
+  const SHOTS_N = 3;
+
+  function normalise(list) {
+    return list.map(p => typeof p === 'string' ? { src: p } : p)
+      .filter(p => p && (p.src || p.image || p.file || p.photo || p.cat))
+      .map(p => {
+        let src = String(p.src || p.image || p.file || p.photo).replace(/^\.?\//, '');
+        let cat = p.cat !== undefined ? p.cat : (p.categorie !== undefined ? p.categorie : p.category);
+        cat = (Array.isArray(cat) ? cat : (cat ? [cat] : [])).map(slug).filter(c => c && c !== 'tout');
+        const titre = p.titre || p.title || src.split('/').pop().replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+        return { src, titre: titre.charAt(0).toUpperCase() + titre.slice(1), cat };
+      });
+  }
+
+  /* Remplit la section "Mes créations" depuis la galerie (modifiable via SHOTS_CAT / SHOTS_N) */
+  function renderShots(photos) {
+    const box = document.getElementById('shots');
+    if (!box) return;
+    const pool = photos.filter(p => p.cat.includes(SHOTS_CAT));
+    const picks = (pool.length ? pool : photos).slice(0, SHOTS_N);
+    if (!picks.length) return;
+    box.innerHTML = picks.map(p => {
+      const src = p.src.split('/').map(encodeURIComponent).join('/');
+      return '<figure class="shot"><img src="' + esc(src) + '" alt="' + esc(p.titre) + '" loading="lazy"><figcaption>' + esc(p.titre) + '</figcaption></figure>';
+    }).join('');
+  }
+
+  function render(photos) {
+    const n = id => photos.filter(p => id === 'tout' || p.cat.includes(id)).length;
+    const found = new Set();
+    photos.forEach(p => p.cat.forEach(c => found.add(c)));
+    const ids = [...ORDER.filter(i => found.has(i)), ...[...found].filter(i => !ORDER.includes(i)).sort()];
+    box.innerHTML = '<a class="all" href="gallery.html">Tout voir <small>' + n('tout') + '</small></a>' +
+      ids.map(id => '<a href="gallery.html#' + encodeURIComponent(id) + '">' + esc(toLabel(id)) + ' <small>' + n(id) + '</small></a>').join('');
+    const tile = document.querySelector('#galToggle small');
+    if (tile && photos.length) {
+      if (!tile.dataset.base) tile.dataset.base = tile.textContent;
+      tile.textContent = tile.dataset.base + ' · ' + photos.length + ' photo' + (photos.length > 1 ? 's' : '');
+    }
+  }
+
+  /* Repli : liste directe des dossiers via l'API GitHub si photos.json manque. */
+  async function fromGitHub() {
+    const m = location.hostname.match(/^([^.]+)\.github\.io$/i);
+    if (!m) return null;
+    const owner = m[1];
+    const seg = location.pathname.split('/').filter(Boolean);
+    const repo = seg.length ? seg[0] : owner + '.github.io';
+    const key = 'pbm_idxphotos_' + owner + '_' + repo;
+    try {
+      const c = JSON.parse(localStorage.getItem(key) || 'null');
+      if (c && Array.isArray(c.data) && Date.now() - c.at < 30 * 60 * 1000) return c.data;
+    } catch (e) {}
+    const headers = { Accept: 'application/vnd.github+json' };
+    const r = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/galerie', { headers });
+    if (!r.ok) return null;
+    const dirs = (await r.json()).filter(d => d.type === 'dir' && !['profil', 'logo'].includes(slug(d.name)));
+    const by = new Map();
+    await Promise.all(dirs.map(async d => {
+      const rr = await fetch(d.url, { headers });
+      if (!rr.ok) return;
+      const files = await rr.json();
+      const cat = slug(d.name);
+      files.filter(f => f.type === 'file' && /\.(jpe?g|png|webp|gif|avif)$/i.test(f.name)).forEach(f => {
+        const k = f.name.toLowerCase();
+        if (!by.has(k)) by.set(k, { cat: [] });
+        const e = by.get(k);
+        if (!e.cat.includes(cat)) e.cat.push(cat);
+      });
+    }));
+    const out = [...by.values()];
+    try { localStorage.setItem(key, JSON.stringify({ at: Date.now(), data: out })); } catch (e) {}
+    return out;
+  }
+
+  (async () => {
+    let list = null;
+    try {
+      const r = await fetch('galerie/photos.json?v=' + Date.now(), { cache: 'no-store' });
+      if (r.ok) list = await r.json();
+    } catch (e) {}
+    if (list && !Array.isArray(list) && Array.isArray(list.photos)) list = list.photos;
+    if (!Array.isArray(list) && window.SITE_DATA && Array.isArray(SITE_DATA.photos)) list = SITE_DATA.photos;
+    if (!Array.isArray(list) || !list.length) {
+      try { list = await fromGitHub(); } catch (e) {}
+    }
+    if (Array.isArray(list) && list.length) { const N = normalise(list); render(N); renderShots(N); }
+  })();
+})();
+</script>
+</body>
+</html>

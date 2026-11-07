@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+/* DETECTION TELEPHONE (exécutée tout de suite, dans le <head>) : ajoute la classe "is-phone" sur <html> */
+(function(){
+  var root=document.documentElement;
+  function mm(q){try{return window.matchMedia&&window.matchMedia(q).matches}catch(e){return false}}
+  function isPhone(){
+    var ua=navigator.userAgent||'';
+    var uaMobile=/Mobi|Android|iPhone|iPod|IEMobile|Opera Mini|BlackBerry/i.test(ua);
+    var ch=!!(navigator.userAgentData&&navigator.userAgentData.mobile);
+    var s=window.screen||{};
+    var small=Math.min(s.width||9999,s.height||9999);
+    var touch=(navigator.maxTouchPoints||0)>0||('ontouchstart' in window);
+    /* écran réel de petite taille + tactile : détecte aussi le mode "version ordinateur" des navigateurs mobiles */
+    var phoneScreen=touch&&small<=600;
+    var coarseSmall=mm('(pointer:coarse)')&&small<=820;
+    var narrow=mm('(max-width: 899px)');
+    return uaMobile||ch||phoneScreen||coarseSmall||narrow;
+  }
+  function apply(){
+    var p=isPhone();
+    root.classList.toggle('is-phone',p);
+    if(p){var m=document.querySelector('meta[name=viewport]');
+      if(m&&m.content.indexOf('device-width')<0)m.setAttribute('content','width=device-width, initial-scale=1');}
+  }
+  apply();
+  window.addEventListener('resize',apply);
+  window.addEventListener('orientationchange',apply);
+})();
+</script>
+
+<title>Location d'outils – PBMecatec</title>
+<meta name="description" content="Outils de l'atelier à louer : photos, descriptions et demande de location en ligne.">
+<meta name="theme-color" content="#232e3a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#232e3a;--bg2:#2f3c4a;--line:#45525f;--text:#f4f7f1;--muted:#bac5d0;--lime:#c9f31d;--amber:#ffb020;--head:'Chakra Petch',system-ui,sans-serif;--body:'Outfit',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(1100px 600px at 50% -15%,#33414f 0%,var(--bg) 65%);color:var(--text);font-family:var(--body);font-weight:300;line-height:1.5;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(600px 400px at 85% 0%,rgba(201,243,29,.12),transparent 70%),linear-gradient(var(--line) 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/48px 48px;-webkit-mask-image:linear-gradient(#000 30%,transparent);mask-image:linear-gradient(#000 30%,transparent)}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--head);letter-spacing:-.01em;line-height:1.1}
+header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(25,34,44,.82);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{display:inline-flex;align-items:center;font-family:var(--head);font-weight:700}
+.logo-img{display:block;height:48px;width:auto;border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,.07)}
+/* menu lateral : tuiles des pages */
+.menuBtn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-family:var(--head);font-weight:600;font-size:.85rem;cursor:pointer;transition:border-color .2s,background .2s}
+.menuBtn:hover{border-color:var(--lime);background:#374453}
+.menuBtn:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(8,11,15,.64);opacity:0;transition:opacity .25s}
+.scrim.on{opacity:1}
+.sideNav{position:fixed;top:0;left:0;bottom:0;z-index:41;width:min(340px,86vw);display:flex;flex-direction:column;background:#1c2530;border-right:1px solid var(--line);box-shadow:24px 0 60px rgba(0,0,0,.45);transform:translateX(-102%);visibility:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),visibility 0s linear .3s;overflow:hidden}
+.sideNav.open{transform:none;visibility:visible;transition:transform .3s cubic-bezier(.2,.7,.2,1),visibility 0s}
+.railBrand{display:flex;align-items:center;justify-content:space-between;gap:10px;height:56px;flex:none;padding:0 12px;border-bottom:1px solid var(--line)}
+.railBrand img{display:block;height:38px;width:auto;border-radius:7px;box-shadow:0 0 0 1px rgba(255,255,255,.07)}
+.sideNav-body{flex:1;min-height:0;display:flex;flex-direction:column;gap:9px;padding:14px 14px calc(14px + env(safe-area-inset-bottom));overflow-y:auto}
+.sideNav-title{font-family:var(--head);font-weight:600;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:0 4px 2px}
+.sideNav-foot{margin-top:auto;padding:14px 4px 0;color:var(--muted);font-size:.74rem;line-height:1.4;opacity:.8}
+.sideNav-close{width:38px;height:38px;flex:none;border-radius:11px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:1rem;line-height:1;cursor:pointer;transition:border-color .2s}
+.sideNav-close:hover{border-color:var(--lime)}
+.navTile{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--bg2);color:var(--text);transition:border-color .2s,background .2s,transform .2s}
+.navTile:hover,.navTile:focus-visible{border-color:var(--lime);transform:translateX(3px)}
+.navTile .ico{flex:none;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;font-size:1.15rem}
+.navTile b{display:block;font-family:var(--head);font-weight:600;font-size:.98rem;line-height:1.2}
+.navTile small{display:block;margin-top:3px;color:var(--muted);font-size:.78rem;line-height:1.3}
+.navTile[aria-current=page]{border-color:var(--lime);background:rgba(201,243,29,.10)}
+.navTile[aria-current=page] b{color:var(--lime)}
+body.navOpen{overflow:hidden}
+@media(max-width:900px){.logo-img{height:40px}nav{flex-wrap:wrap;height:auto;padding:8px 0 10px;row-gap:8px}.menuBtn{width:44px;height:44px;padding:0;justify-content:center}.menuBtn span{display:none}}
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-family:var(--head);font-weight:600;font-size:.95rem;padding:11px 20px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--text);cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--lime)}
+.btn.main{background:var(--lime);color:#10140a;border-color:var(--lime)}
+.btn.main:hover{box-shadow:0 8px 30px rgba(201,243,29,.35)}
+.btn.sm{padding:7px 16px;font-size:.85rem}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:30px 0 8px}
+.sub{color:var(--muted);margin-bottom:22px;max-width:62ch}
+.box{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:18px 22px}
+.empty{color:var(--muted);padding:40px 20px;text-align:center;border:1px dashed var(--line);border-radius:16px}
+.foot{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 0 28px}.foot a:hover{color:var(--lime)}
+form{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input,select,textarea{width:100%;font:inherit;font-size:.92rem;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime)}
+textarea{resize:vertical;min-height:70px}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.st{font-size:.85rem;min-height:1.2em}
+.legal{font-size:.75rem;color:var(--muted);line-height:1.4}.legal a{text-decoration:underline}
+@media(max-width:520px){.row{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;padding-bottom:10px}
+.tool{display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .25s,border-color .25s}
+.tool:hover{transform:translateY(-3px);border-color:rgba(201,243,29,.5)}
+.ph{aspect-ratio:16/9;display:grid;place-items:center;font-size:2rem;overflow:hidden;background:radial-gradient(circle at 50% 60%,#394655,#26313b);cursor:zoom-in;position:relative;border:0;width:100%;color:inherit}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center}
+.tool .bd{display:flex;flex-direction:column;gap:5px;padding:10px 12px 12px;flex:1}
+.tool h3{font-size:1rem}
+.tool p{color:var(--muted);font-size:.85rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tool p.expanded{-webkit-line-clamp:unset;display:block;overflow:visible}
+.morebtn{background:none;border:0;color:var(--lime);font:inherit;font-size:.78rem;cursor:pointer;padding:0;margin-top:4px;text-decoration:underline;align-self:flex-start}
+.ft{margin-top:auto;padding-top:8px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.px{font-family:var(--head);font-weight:600;color:var(--lime)}
+.badge{font-size:.68rem;font-family:var(--head);font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
+.tool.off .ph img{filter:grayscale(1) opacity(.55)}
+dialog{margin:auto;background:var(--bg2);color:var(--text);border:1px solid var(--line);border-radius:18px;padding:20px 22px;width:min(480px,calc(100% - 32px));max-height:calc(100% - 32px);overflow:auto}
+dialog::backdrop{background:rgba(10,14,19,.86);backdrop-filter:blur(6px)}
+dialog h2{font-size:1.3rem;margin-bottom:12px}
+.dhead{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.x{background:var(--bg);border:1px solid var(--line);color:var(--text);width:34px;height:34px;border-radius:50%;cursor:pointer;flex:none}.x:hover{border-color:var(--lime)}
+#zoom{padding:0;background:none;border:0;width:auto;max-width:94vw;overflow:visible}
+#zoom img{display:block;max-width:94vw;max-height:84vh;border-radius:12px;cursor:zoom-out}
+#zoom p{text-align:center;color:var(--muted);margin-top:8px}
+.pageTitle{display:none;font-family:var(--head);font-weight:600;font-size:.9rem;color:var(--muted);letter-spacing:.02em}
+
+/* rail fixe (ordinateur) */
+@media(min-width:1100px){
+  .sideNav{transform:none;visibility:visible;width:236px;box-shadow:none}
+  .sideNav-close{display:none}
+  .sideNav-body{padding:12px;gap:8px}
+  .navTile{padding:10px;gap:10px;border-radius:12px}
+  .navTile .ico{width:38px;height:38px;border-radius:10px;font-size:1.05rem}
+  .navTile b{font-size:.93rem}
+  .navTile small{font-size:.73rem}
+  .menuBtn{display:none}
+  .scrim{display:none}
+  body{padding-left:236px}
+  header .logo{display:none}
+  header nav{justify-content:flex-start}
+  header nav ul{margin-left:auto}
+  .pageTitle{display:block}
+  body.navOpen{overflow-x:hidden;overflow-y:auto}
+}
+</style>
+<style>
+/* ===== Adaptation affichage : téléphone ===== */
+html.is-phone .wrap{padding:0 16px}
+html.is-phone section{padding:18px 0}
+html.is-phone .hero{padding:14px 16px 20px;gap:14px}
+html.is-phone h1{font-size:clamp(1.6rem,8.2vw,2.5rem)}
+html.is-phone .hero .lead{font-size:1rem}
+html.is-phone .frame{width:min(100%,250px)}
+html.is-phone .badge{width:min(100%,250px)}
+html.is-phone .grid{grid-template-columns:repeat(2,1fr)}
+html.is-phone .card{padding:11px 12px}
+html.is-phone .skills{grid-template-columns:1fr}
+html.is-phone .shots{grid-template-columns:1fr;grid-template-rows:auto;gap:10px}
+html.is-phone .shot{height:auto;aspect-ratio:4/3}
+html.is-phone .duo{grid-template-columns:1fr}
+html.is-phone .steps{grid-template-columns:1fr}
+html.is-phone .contact .row{grid-template-columns:1fr}
+html.is-phone .cta{flex-direction:column;align-items:stretch}
+html.is-phone .chips{margin-top:12px}
+html.is-phone .tag{font-size:.8rem}
+html.is-phone body{line-height:1.45}
+html.is-phone section{padding:12px 0}
+html.is-phone .sec-head{flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:10px}
+html.is-phone .sec-head p{font-size:.85rem}
+html.is-phone .hero{min-height:0;padding:10px 14px 14px;gap:10px}
+html.is-phone .hero .lead{margin:6px 0 10px;font-size:.92rem}
+html.is-phone .tag{padding:3px 9px;font-size:.75rem;margin-bottom:8px}
+html.is-phone .chips{margin-top:10px;gap:5px}
+html.is-phone .chips span{font-size:.72rem;padding:3px 9px}
+html.is-phone .cta{gap:8px}
+html.is-phone .btn{padding:9px 16px;font-size:.88rem}
+html.is-phone .btn.sm{padding:6px 14px;font-size:.8rem}
+html.is-phone .card{padding:10px}
+html.is-phone .card .ico{width:30px;height:30px;font-size:1rem;margin-bottom:5px}
+html.is-phone .card h3{font-size:.9rem}
+html.is-phone .card p{font-size:.76rem}
+html.is-phone .skill{padding:5px 0}
+html.is-phone .stars{font-size:1rem}
+html.is-phone .more{margin-top:8px}
+html.is-phone .contact .box{padding:12px}
+html.is-phone .faq summary{font-size:.88rem}
+html.is-phone .badge{padding:6px 12px;font-size:.75rem}
+html.is-phone .badge strong{font-size:.9rem}
+html.is-phone .hero-pic{gap:8px}
+html.is-phone .frame{width:min(100%,230px)}
+html.is-phone h2{font-size:clamp(1.25rem,6vw,1.7rem)}
+html.is-phone h1{font-size:clamp(1.5rem,8.5vw,2.3rem)}
+html.is-phone nav{height:52px}
+html.is-phone nav .logo-img{height:40px}
+html.is-phone .callbar{bottom:0}
+html.is-phone .tools{grid-template-columns:repeat(2,1fr)}
+html.is-phone .ph{aspect-ratio:16/9}
+html.is-phone .ph img{width:100%;height:100%;max-width:none;object-fit:cover;object-position:center center}
+html.is-phone .tool .bd{padding:6px 8px 8px}
+html.is-phone .tool h3{font-size:.85rem}
+html.is-phone .tool p{font-size:.75rem}
+html.is-phone .ft{padding-top:6px;flex-wrap:wrap;gap:6px}
+html.is-phone .ft>*{min-width:0}
+html.is-phone .ft .badge{white-space:normal;overflow-wrap:anywhere;font-size:.6rem;line-height:1.2;padding:2px 7px;max-width:100%;border-radius:10px}
+html.is-phone .ft .btn{flex:1 1 100%;justify-content:center;padding:7px 10px;font-size:.74rem}
+</style>
+<style>
+html.is-phone .car{grid-template-columns:1fr}
+html.is-phone .car img{max-height:120px}
+html.is-phone .tile{padding:10px}
+html.is-phone .item img{min-height:120px !important}
+</style>
+<style id="phone-header-compact">
+/* ===== Téléphone : en-tête compact (bouton menu à GAUCHE, logo au MILIEU) + tailles réduites ===== */
+html.is-phone{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:52px}
+html.is-phone body{padding-left:0 !important}
+html.is-phone header nav{display:grid !important;grid-template-columns:40px 1fr 40px;align-items:center;column-gap:8px;height:46px !important;padding:0 !important;row-gap:0 !important;flex-wrap:nowrap}
+html.is-phone header nav .menuBtn{display:inline-flex !important;grid-column:1;grid-row:1;justify-self:start;width:38px;height:38px;padding:0;justify-content:center;border-radius:10px}
+html.is-phone header nav .menuBtn span{display:none !important}
+html.is-phone header nav .logo{display:inline-flex !important;grid-column:2;grid-row:1;justify-self:center}
+html.is-phone header nav .logo-img{height:32px !important;width:auto}
+html.is-phone header nav ul,html.is-phone header nav .pageTitle{display:none !important}
+html.is-phone .wrap{padding:0 14px}
+html.is-phone section{padding:10px 0}
+html.is-phone h1{font-size:clamp(1.35rem,7vw,1.9rem)}
+html.is-phone h2{font-size:clamp(1.1rem,5.2vw,1.4rem)}
+html.is-phone p,html.is-phone li{font-size:.92rem}
+html.is-phone .btn{padding:8px 14px;font-size:.84rem}
+html.is-phone img,html.is-phone video{max-width:100%;height:auto}
+html.is-phone .logo-img{max-width:none}
+/* menu des pages (tiroir) : plus compact */
+html.is-phone .sideNav{width:min(290px,82vw);transform:translateX(-102%);visibility:hidden}
+html.is-phone .sideNav.open{transform:none;visibility:visible}
+html.is-phone .sideNav-close{display:block}
+html.is-phone .railBrand{height:48px}
+html.is-phone .railBrand img{height:30px}
+html.is-phone .sideNav-body{gap:7px;padding:10px}
+html.is-phone .navTile{padding:8px 10px;gap:9px;border-radius:11px}
+html.is-phone .navTile .ico{width:34px;height:34px;font-size:1rem}
+html.is-phone .navTile b{font-size:.88rem}
+html.is-phone .navTile small{font-size:.7rem}
+html.is-phone .navFilters a{font-size:.75rem;padding:6px 10px}
+</style>
+<style id="chk-css">
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:.8rem;line-height:1.35;color:var(--muted,#bac5d0);text-align:left}
+.chk input[type=checkbox]{width:18px;height:18px;flex:none;margin:1px 0 0;padding:0;accent-color:var(--lime,#c9f31d)}
+.chk a{text-decoration:underline;color:var(--lime,#c9f31d)}
+html.is-phone .chk{font-size:.74rem}
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav aria-label="Navigation principale">
+  <a href="index.html" class="logo"><img class="logo-img" src="logo/logo.jpg" alt="PBMecatec" width="480" height="186"></a>
+  <span class="pageTitle">Locations</span>
+  <button type="button" class="menuBtn" id="menuBtn" aria-expanded="false" aria-controls="sideNav" aria-label="Ouvrir le menu des pages">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    <span>Pages</span>
+  </button>
+</nav></div></header>
+
+<div class="scrim" id="scrim" hidden></div>
+<div class="sideNav" id="sideNav" role="navigation" aria-label="Pages du site">
+  <div class="railBrand">
+    <a href="index.html"><img src="logo/logo.jpg" alt="PBMecatec — Accueil" width="480" height="186"></a>
+    <button type="button" class="sideNav-close" id="navClose" aria-label="Fermer le menu">✕</button>
+  </div>
+  <div class="sideNav-body">
+    <p class="sideNav-title">Pages du site</p>
+  <a class="navTile" href="index.html"><span class="ico" aria-hidden="true">🏠</span><span><b>Accueil</b><small>Présentation, prestations et contact</small></span></a>
+  <a class="navTile" href="gallery.html"><span class="ico" aria-hidden="true">🖼️</span><span><b>Galerie photos</b><small>Réalisations, véhicules et projets</small></span></a>
+  <a class="navTile" href="locations.html" aria-current="page"><span class="ico" aria-hidden="true">🧰</span><span><b>Locations</b><small>Outils de l'atelier à louer</small></span></a>
+  <a class="navTile" href="ventes.html"><span class="ico" aria-hidden="true">🏷️</span><span><b>Ventes</b><small>Réalisations, outils et matériel à vendre</small></span></a>
+  <a class="navTile" href="dons.html"><span class="ico" aria-hidden="true">🎁</span><span><b>Dons</b><small>J'accepte vos dons matériel</small></span></a>
+
+  <p class="sideNav-foot">Mécanique · Soudure · Électronique</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <h1>Location de matériel</h1>
+  <p class="sub">Des outils de mon atelier à louer. Choisissez celui qui vous intéresse et envoyez une demande : je vous confirme la disponibilité, le tarif et les conditions par e-mail.</p>
+  <p id="load" class="empty">Chargement des outils…</p>
+  <div class="tools" id="grid"></div>
+  <p id="empty" class="empty" hidden>Aucun outil à louer pour le moment. Écrivez-moi si vous cherchez quelque chose de précis.</p>
+</main>
+<footer class="foot"><a href="index.html">Accueil</a> · <a href="mentions.html">Mentions légales</a></footer>
+
+<dialog id="dlg" aria-labelledby="dTitle">
+  <div class="dhead"><h2 id="dTitle">Demande de location</h2><button class="x" type="button" id="dx" aria-label="Fermer">✕</button></div>
+  <form id="f">
+    <div class="row"><input name="nom" placeholder="Votre nom" required aria-label="Votre nom" autocomplete="name"><input name="email" type="email" placeholder="Votre e-mail" required aria-label="Votre e-mail" autocomplete="email"></div>
+    <div class="row"><input name="tel" type="tel" placeholder="Téléphone (facultatif)" aria-label="Téléphone (facultatif)" autocomplete="tel"><input name="dates" placeholder="Dates souhaitées" required aria-label="Dates souhaitées"></div>
+    <textarea name="msg" placeholder="Précisions (facultatif)" maxlength="1500" aria-label="Précisions"></textarea>
+    <input class="hp" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <label class="chk"><input type="checkbox" name="consent_stockage" required> <span>J'ai lu les <a href="mentions.html#donnees" target="_blank" rel="noopener">mentions légales</a> et j'accepte que mes données (nom, e-mail, téléphone, message) soient enregistrées pour traiter ma demande, pendant 3 ans maximum.</span></label>
+    <label class="chk"><input type="checkbox" name="consent_google" required> <span>Je comprends que mes données sont traitées via les services de Google (Sheets, Apps Script, Gmail), ce qui peut impliquer un transfert hors de l'Union européenne.</span></label>
+    <button class="btn main" type="submit">Envoyer la demande</button>
+    <p class="st" id="st" role="status"></p>
+    <p class="legal">Vous pouvez demander l'accès, la rectification ou la suppression de vos données, ou retirer votre consentement, à tout moment par e-mail. <a href="mentions.html#donnees">En savoir plus</a></p>
+  </form>
+</dialog>
+
+<dialog id="zoom" aria-label="Photo agrandie"><img alt=""><p></p></dialog>
+
+<dialog id="detail" aria-labelledby="detailTitle">
+  <div class="dhead"><h2 id="detailTitle"></h2><button class="x" type="button" id="detailClose" aria-label="Fermer">✕</button></div>
+  <img id="detailImg" alt="" style="width:100%;max-height:50vh;object-fit:contain;border-radius:12px;margin-bottom:12px">
+  <p id="detailDesc" style="color:var(--muted);line-height:1.5;margin-bottom:12px"></p>
+  <div class="ft" style="padding-top:0"><span class="px" id="detailPrice"></span><button class="btn main sm" type="button" id="detailAsk">Je suis intéressé</button></div>
+</dialog>
+<script src="donnees.js"></script>
+<script>
+/* ===== AJOUTER UN OUTIL À LOUER =====
+   Tout se passe dans le dossier  locations/  :
+     1) déposez-y la photo de l'outil (ex. perceuse.jpg)
+     2) ouvrez le fichier  locations/outils.txt  et ajoutez un bloc :
+          Photo: perceuse.jpg
+          Titre: Perceuse à colonne
+          Prix: 15 € / jour
+          Description: Idéale pour percer l'acier.
+          Disponible: oui
+   Rien à modifier dans ce fichier HTML, et aucune mise à jour manuelle : le site lit
+   locations/locations.txt directement. Ces photos n'apparaissent jamais dans la galerie. */
+const OUTILS_FILE = "locations/outils.txt";
+
+// ===== SERVICE D'ENVOI : même adresse que sur index.html (à changer aux deux endroits si elle change) =====
+const API_URL = "https://script.google.com/macros/s/AKfycbxAvpIE5mm2_YU8y0mAQCIhU3_s0dXIjdkQSBktzFI7EE1-sNMc3c_iev1NuF9rVsf2/exec";
+const EMAIL = "PBMecatec@hotmail.com";
+const T0 = Date.now();
+function envoyer(type, data) {
+  return new Promise((resolve, reject) => {
+    const name = 'tx' + Date.now();
+    const ifr = document.createElement('iframe'); ifr.name = name; ifr.title = 'envoi'; ifr.style.display = 'none'; ifr.setAttribute('aria-hidden', 'true');
+    const form = document.createElement('form'); form.method = 'POST'; form.action = API_URL; form.target = name; form.acceptCharset = 'UTF-8'; form.style.display = 'none';
+    const inp = document.createElement('input'); inp.type = 'hidden'; inp.name = 'payload'; inp.value = JSON.stringify({ type, delay: Date.now() - T0, ...data });
+    form.appendChild(inp); document.body.append(ifr, form);
+    const t1 = Date.now(); let done = false, tm;
+    const end = err => { if (done) return; done = true; clearTimeout(tm); setTimeout(() => { ifr.remove(); form.remove(); }, 500); err ? reject(new Error(err)) : resolve(); };
+    ifr.addEventListener('load', () => { if (Date.now() - t1 > 300) end(); });
+    tm = setTimeout(() => end('délai dépassé'), 25000);
+    form.submit();
+  });
+}
+const say = (el, txt, ok) => { el.textContent = txt; el.style.color = ok ? 'var(--lime)' : '#ff8a7a'; };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+const grid = document.getElementById('grid'), emptyEl = document.getElementById('empty'), loadEl = document.getElementById('load');
+let tools = [];
+const enc = p => p.split('/').map(encodeURIComponent).join('/');
+const decode = buf => { try { return new TextDecoder('utf-8', { fatal: true }).decode(buf); } catch (e) { return new TextDecoder('windows-1252').decode(buf); } };
+
+function parseOutils(t) {
+  const map = { photo: 'photo', image: 'photo', titre: 'nom', nom: 'nom', prix: 'prix', description: 'desc', desc: 'desc', disponible: 'dispo', dispo: 'dispo' };
+  const list = []; let o = null, cur = 'desc';
+  const push = () => { if (o && (o.nom || o.photo)) list.push(o); o = null; };
+  t.replace(/^\uFEFF/, '').split(/\r?\n/).forEach(l => {
+    if (/^\s*(-{3,}|={3,})\s*$/.test(l)) { push(); return; }
+    if (/^\s*#/.test(l)) return;
+    const m = l.match(/^\s*(photo|image|titre|nom|prix|description|desc|disponible|dispo)\s*:\s*(.*)$/i);
+    if (m) {
+      const k = map[m[1].toLowerCase()];
+      if (k === 'photo' && o && o.photo !== undefined) push();
+      if (!o) o = {};
+      cur = k; o[k] = m[2].trim();
+    } else if (l.trim() && o) o[cur] = ((o[cur] || '') + ' ' + l.trim()).trim();
+  });
+  push();
+  return list.map(o => ({
+    photo: o.photo ? enc('locations/' + o.photo.replace(/^\/?locations\//i, '')) : '',
+    nom: o.nom || (o.photo ? o.photo.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ') : 'Outil'),
+    desc: o.desc || '', prix: o.prix || '',
+    dispo: !/^(non|no|0|faux|indispo|lou)/i.test(o.dispo || 'oui')
+  }));
+}
+const CANDIDATS = ['locations/locations.txt', 'locations/outils.txt', 'locations/Outils.txt'];
+async function load() {
+  let txt = null, last = '';
+  for (const p of CANDIDATS) {
+    try { const r = await fetch(p, { cache: 'no-cache' }); if (r.ok) { txt = decode(await r.arrayBuffer()); break; } last = 'HTTP ' + r.status; }
+    catch (e) { last = 'lecture bloquée par le navigateur'; break; }
+  }
+  /* ouverture locale (double-clic) : lecture via donnees.js, généré par mettre-a-jour.ps1 */
+  if (txt === null && window.SITE_DATA && typeof SITE_DATA.locations === 'string') txt = SITE_DATA.locations;
+  if (txt !== null) tools = parseOutils(txt);
+  else { tools = []; emptyEl.textContent = 'Impossible de lire locations/locations.txt (' + last + '). Sur le site en ligne, vérifiez que le fichier est publié dans le dossier locations/. En local (double-clic), lancez mettre-a-jour.ps1 ou node outils/maj-donnees.js.'; }
+  render();
+}
+
+function render() {
+  loadEl.hidden = true; emptyEl.hidden = tools.length > 0; grid.innerHTML = '';
+  tools.forEach((o, i) => {
+    const a = document.createElement('article'); a.className = 'tool' + (o.dispo ? '' : ' off');
+    a.setAttribute('data-detail', i);
+    a.innerHTML = `<button class="ph" type="button" data-zoom="${i}" aria-label="Agrandir la photo : ${esc(o.nom)}">${o.photo ? `<img src="${esc(o.photo)}" alt="${esc(o.nom)}" loading="lazy" decoding="async" onerror="this.parentNode.insertAdjacentHTML('afterbegin','🧰');this.remove()">` : '🧰'}</button>
+      <div class="bd"><h3>${esc(o.nom)}</h3>${o.desc ? `<p>${esc(o.desc)}</p>` : ''}
+      <div class="ft">${o.dispo ? (o.prix ? `<span class="px">${esc(o.prix)}</span>` : '<span class="badge">Tarif sur demande</span>') : '<span class="badge">Actuellement indisponible</span>'}
+      <button class="btn main sm" type="button" data-ask="${i}" ${o.dispo ? '' : 'disabled'}>${o.dispo ? 'Demander' : 'Indisponible'}</button></div></div>`;
+    grid.appendChild(a);
+  });
+}
+
+  /* Texte long : tronque dans la tuile, complet au clic sur "Lire la suite" */
+  requestAnimationFrame(() => {
+    grid.querySelectorAll('.tool').forEach(tool => {
+      const para = tool.querySelector('.bd p');
+      if (para && para.scrollHeight > para.clientHeight + 1) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'morebtn';
+        btn.textContent = 'Lire la suite';
+        btn.addEventListener('click', () => {
+          const exp = para.classList.toggle('expanded');
+          btn.textContent = exp ? 'Reduire' : 'Lire la suite';
+        });
+        para.after(btn);
+      }
+    });
+  });
+
+const dlg = document.getElementById('dlg'), zoom = document.getElementById('zoom'), f = document.getElementById('f'), st = document.getElementById('st');
+let cur = null;
+grid.addEventListener('click', e => {
+  const z = e.target.closest('[data-zoom]'), q = e.target.closest('[data-ask]');
+  if (z) { const o = tools[+z.dataset.zoom]; if (!o.photo) return; const im = zoom.querySelector('img'); im.src = o.photo; im.alt = o.nom; zoom.querySelector('p').textContent = o.nom; zoom.showModal(); }
+  const det = e.target.closest('[data-detail]');
+  if (det && !e.target.closest('button')) { openDetail(+det.dataset.detail); }
+  if (q && !q.disabled) { cur = tools[+q.dataset.ask]; document.getElementById('dTitle').textContent = 'Louer : ' + cur.nom; st.textContent = ''; dlg.showModal(); }
+});
+zoom.addEventListener('click', () => zoom.close());
+
+const detail = document.getElementById('detail'), detailClose = document.getElementById('detailClose'),
+  detailImg = document.getElementById('detailImg'), detailTitle = document.getElementById('detailTitle'),
+  detailDesc = document.getElementById('detailDesc'), detailPrice = document.getElementById('detailPrice'),
+  detailAsk = document.getElementById('detailAsk');
+function openDetail(i) {
+  const o = tools[i];
+  if (!o) return;
+  detailTitle.textContent = o.nom;
+  if (o.photo) { detailImg.src = o.photo; detailImg.alt = o.nom; detailImg.style.display = ''; }
+  else { detailImg.style.display = 'none'; }
+  detailDesc.textContent = o.desc || '';
+  detailPrice.textContent = o.dispo ? (o.prix || 'Prix sur demande') : 'Vendu / indisponible';
+  detailAsk.disabled = !o.dispo;
+  detailAsk.textContent = o.dispo ? 'Je suis intéressé' : 'Indisponible';
+  detailAsk.onclick = () => { detail.close(); if (o.dispo) { cur = o; document.getElementById('dTitle').textContent = 'Acheter : ' + o.nom; st.textContent = ''; dlg.showModal(); } };
+  detail.showModal();
+}
+detailClose.onclick = () => detail.close();
+detail.addEventListener('click', e => { if (e.target === detail) detail.close(); });
+
+document.getElementById('dx').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+f.addEventListener('submit', async e => {
+  e.preventDefault();
+  const x = f.elements, btn = f.querySelector('button[type=submit]');
+  if (!API_URL) return say(st, "L'envoi en ligne n'est pas activé. Écrivez-moi à " + EMAIL + ".", false);
+  btn.disabled = true; say(st, 'Envoi en cours…', true);
+  try {
+    await envoyer('location', { nom: x.nom.value, email: x.email.value, tel: x.tel.value, outil: cur.nom, dates: x.dates.value, msg: x.msg.value, site: x.site.value, consent: true });
+    f.reset(); say(st, 'Merci ! Votre demande est envoyée, je vous réponds rapidement.', true);
+  } catch (err) { say(st, "Envoi impossible pour le moment. Écrivez-moi à " + EMAIL + ". (détail : " + err.message + ")", false); }
+  btn.disabled = false;
+});
+
+load();
+</script>
+<script>
+// Menu lateral des pages (tuiles)
+(() => {
+  const btn = document.getElementById('menuBtn');
+  const panel = document.getElementById('sideNav');
+  const scrim = document.getElementById('scrim');
+  const close = document.getElementById('navClose');
+  if (!btn || !panel || !scrim || !close) return;
+  let timer;
+  const open = () => {
+    clearTimeout(timer);
+    scrim.hidden = false;
+    requestAnimationFrame(() => scrim.classList.add('on'));
+    panel.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('navOpen');
+    requestAnimationFrame(() => close.focus());
+  };
+  const shut = () => {
+    panel.classList.remove('open');
+    scrim.classList.remove('on');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('navOpen');
+    clearTimeout(timer);
+    timer = setTimeout(() => { if (!panel.classList.contains('open')) scrim.hidden = true; }, 280);
+    btn.focus();
+  };
+  btn.addEventListener('click', open);
+  close.addEventListener('click', shut);
+  scrim.addEventListener('click', shut);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('open')) shut(); });
+  const wide = matchMedia('(min-width:1100px)');
+  const reset = () => {
+    if (!wide.matches) return;
+    panel.classList.remove('open');
+    scrim.classList.remove('on');
+    scrim.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('navOpen');
+  };
+  wide.addEventListener('change', reset);
+})();
+</script>
+</body>
+</html>
